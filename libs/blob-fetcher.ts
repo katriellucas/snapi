@@ -1,10 +1,6 @@
 import { getStore } from "@netlify/blobs";
 
-const gallery = getStore({
-	name: "gallery",
-	siteID: import.meta.env.SNAPI_SITE_ID,
-	token: import.meta.env.SNAPI_TOKEN,
-});
+const gallery = getStore("gallery");
 
 let blobCount = 0;
 
