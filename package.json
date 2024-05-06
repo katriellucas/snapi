@@ -1,0 +1,25 @@
+{
+  "name": "density-doppler",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build && bun libs/blob-fetcher.ts",
+    "preview": "astro preview",
+    "astro": "astro",
+    "blob": "bun libs/blob-fetcher.ts && netlify dev"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.5.10",
+    "@astrojs/netlify": "^5.2.0",
+    "@netlify/blobs": "^7.3.0",
+    "astro": "^4.7.1",
+    "prettier": "^3.2.5",
+    "prettier-plugin-astro": "^0.13.0",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.1.1"
+  }
+}
