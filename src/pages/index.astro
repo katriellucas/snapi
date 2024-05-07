@@ -4,10 +4,9 @@ import { generatePhotos } from '../libs/build-photos.ts';
 
 import Layout from '../layouts/Layout.astro';
 // console.log(Astro.locals.netlify.context);
-// import.meta.env.PROD && (await generatePhotos());
+import.meta.env.PROD && (await generatePhotos());
 
-// console.log(import.meta.env, '<-----------');
-// console.log(import.meta.env, '<-----------');
+console.log(import.meta.env, '<-----------');
 
 const photos = await Astro.glob('src/gallery/*.png');
 ---
