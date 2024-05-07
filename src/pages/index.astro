@@ -6,7 +6,7 @@ import Layout from '../layouts/Layout.astro';
 
 const isProd = import.meta.env.PROD;
 
-console.log(import.meta.env);
+// console.log(Astro.locals.netlify.context, '------------------------------');
 
 isProd && (await generatePhotos());
 
