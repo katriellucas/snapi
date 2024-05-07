@@ -1,4 +1,4 @@
-import fs from "fs";
+// import fs from "fs";
 import { getStore } from "@netlify/blobs";
 
 export async function generatePhotos() {
@@ -11,11 +11,12 @@ export async function generatePhotos() {
 		const { data, metadata } = await gallery.getWithMetadata(key, {
 			type: "arrayBuffer",
 		});
-	
+		console.log(`Created ${key}.${metadata.ext} successfully!`);
+
 		// Can also use new Uint8Array() instead of Buffer.from();
-		fs.writeFile(`./src/gallery/${key}.${metadata.ext }`, Buffer.from(data), (err) => {
-			if (err) throw err;
-			console.log(`Created ${key}.${metadata.ext} successfully!`);
-		});
+		// fs.writeFile(`./src/gallery/${key}.${metadata.ext }`, Buffer.from(data), (err) => {
+		// 	if (err) throw err;
+		// 	console.log(`Created ${key}.${metadata.ext} successfully!`);
+		// });
 	}
 }
