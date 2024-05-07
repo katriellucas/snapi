@@ -5,8 +5,9 @@ import { Picture } from 'astro:assets';
 import { generatePhotos } from '../../netlify/functions/generate-photos.ts';
 
 import Layout from '../layouts/Layout.astro';
-
-import.meta.env.PROD && (await generatePhotos());
+const response = await fetch(Astro.url + '/api/getBlobs').then(res => res.json());
+console.log(response);
+import.meta.env.PROD && (await generatePhotos(response));
 
 const photos = await Astro.glob('src/gallery/*.png');
 ---
