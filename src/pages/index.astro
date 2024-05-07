@@ -5,10 +5,10 @@ import { generatePhotos } from '../libs/generate-photos';
 import Layout from '../layouts/Layout.astro';
 
 console.log(import.meta.env);
-console.log(process.env);
+// console.log(process.env);
 const isProd = import.meta.env.PROD;
 
-isProd && (await generatePhotos());
+// isProd && (await generatePhotos());
 
 const photos = await Astro.glob('src/gallery/*.png');
 // console.log(photos[0], '-------------------');
