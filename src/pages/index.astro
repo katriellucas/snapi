@@ -4,8 +4,8 @@ import { generatePhotos } from '../libs/generate-photos';
 
 import Layout from '../layouts/Layout.astro';
 
+console.log(import.meta.env);
 console.log(process.env);
-
 const isProd = import.meta.env.PROD;
 
 isProd && (await generatePhotos());
