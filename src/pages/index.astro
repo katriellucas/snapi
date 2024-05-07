@@ -1,13 +1,13 @@
 ---
-export const prerender = false;
-
 import { Picture } from 'astro:assets';
-import { generatePhotos } from '../../netlify/functions/generate-photos.ts';
+import { generatePhotos } from '../libs/build-photos.ts';
 
 import Layout from '../layouts/Layout.astro';
-const response = await fetch(Astro.url + '/api/getBlobs').then(res => res.json());
-console.log(response);
-import.meta.env.PROD && (await generatePhotos(response));
+// console.log(Astro.locals.netlify.context);
+// import.meta.env.PROD && (await generatePhotos());
+
+// console.log(import.meta.env, '<-----------');
+// console.log(import.meta.env, '<-----------');
 
 const photos = await Astro.glob('src/gallery/*.png');
 ---
