@@ -1,14 +1,6 @@
 import fs from "fs";
 import { getStore } from "@netlify/blobs";
 
-var netlifyBlobsContext: any = {
-	edgeURL: 'https://api.netlify.com',
-	token: 'your-access-token',
-	siteID: 'your-site-id'
-};
-
-netlifyBlobsContext = btoa(JSON.stringify(netlifyBlobsContext));
-console.log(netlifyBlobsContext)
 
 export async function generatePhotos() {
 	const gallery = getStore( "gallery" );
