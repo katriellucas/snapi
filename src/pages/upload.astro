@@ -1,20 +1,56 @@
 ---
-import { Picture } from "astro:assets";
+export const prerender = false;
 
-import myImage from "../assets/my_image.png"; // Image is 1600x900
+import { getStore } from "@netlify/blobs";
+import slugify from "slugify";
+import { fileTypeFromBlob } from "file-type";
 
 import Layout from "../layouts/Layout.astro";
----
 
-<script>
-	const form = document.querySelector("form");
-	const img = document.querySelector("img");
-</script>
+if (Astro.request.method === "POST") {
+	const formData = await Astro.request.formData();
+	const file = formData.get("file") as File;
+	const name = formData.get("name");
+
+	const gallery = getStore("gallery");
+
+	// Check if photo already exists
+	const key = slugify(String(name), { lower: true });
+
+	if (await gallery.get(key)) {
+		return new Response("Photo already exists.", { status: 400 });
+	}
+
+	// Check if file type is valid
+	const fileType = await fileTypeFromBlob(file);
+
+	if (fileType?.ext && !["jpg", "png", "webp", "avif"].includes(fileType.ext)) {
+		return new Response("Invalid file type.", { status: 400 });
+	}
+
+	await gallery.set(key, file, { metadata: fileType });
+
+	// await gallery.set(key, file);
+	// entry2 = await gallery.get(key, { type: "blob" });
+
+	// const test = await gallery.get(key, { type: "glob" });
+}
+---
 
 <Layout title="Welcome to Astro.">
 	<main>
-		<h1>Gallery</h1>
-		<Picture src={myImage} formats={["avif", "webp"]} alt="" />
+		<h1>Register</h1>
+		<form method="POST" enctype="multipart/form-data">
+			<label>
+				image:
+				<input type="file" name="file" required />
+			</label>
+			<label>
+				name:
+				<input name="name" required />
+			</label>
+			<button>Submit</button>
+		</form>
 	</main>
 </Layout>
 

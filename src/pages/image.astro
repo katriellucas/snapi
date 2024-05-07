@@ -1,37 +1,27 @@
 ---
-import { Picture } from 'astro:assets';
-import { generatePhotos } from '../libs/generate-photos';
+import { Picture } from "astro:assets";
+import { Image } from "astro:assets";
 
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 
 const isProd = import.meta.env.PROD;
 
-isProd && (await generatePhotos());
-
-const photos = await Astro.glob('src/gallery/*.png');
-console.log(photos[0], '-------------------');
+const imageFiles = await Astro.glob("src/gallery/*.png");
+console.log(imageFiles);
 ---
 
-<Layout title="Welcome to Astro.">
-	<main>
-		<div>
-			{
-				photos.map(img => (
-					<>
-						<div
-							style={{
-								width: '100px',
-								height: '100px',
-								background: `url(${img.default.src}&fm=blurhash)`,
-							}}
-						/>
-						<Picture src={img.default} alt="Photo of a pizza" formats={['avif', 'webp']} />
-					</>
-				))
-			}
-		</div>
-	</main>
-</Layout>
+<main>
+	{
+		imageFiles.map((img) => (
+			<Picture
+				src={img.default}
+				width="600"
+				alt="Photo of a pizza"
+				class="mb-3 w-full rounded"
+			/>
+		))
+	}
+</main>
 
 <style>
 	main {
@@ -69,7 +59,10 @@ console.log(photos[0], '-------------------');
 	.instructions {
 		margin-bottom: 2rem;
 		border: 1px solid rgba(var(--accent-light), 25%);
-		background: linear-gradient(rgba(var(--accent-dark), 66%), rgba(var(--accent-dark), 33%));
+		background: linear-gradient(
+			rgba(var(--accent-dark), 66%),
+			rgba(var(--accent-dark), 33%)
+		);
 		padding: 1.5rem;
 		border-radius: 8px;
 	}

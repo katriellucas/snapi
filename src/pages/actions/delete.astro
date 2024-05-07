@@ -1,0 +1,12 @@
+---
+import { getStore } from "@netlify/blobs";
+
+const gallery = getStore("gallery");
+
+const { blobs } = await gallery.list();
+
+// Generate photos from blobs
+for (const { key } of blobs) {
+	await gallery.delete(key);
+}
+---
