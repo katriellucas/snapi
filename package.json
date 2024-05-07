@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "deploy": "git add . && git commit -m 'test deploy' && git push",
+    "push": "git add . && git commit -m 'test deploy' && git push",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
