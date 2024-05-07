@@ -1,17 +1,12 @@
 ---
 import { Picture } from 'astro:assets';
-import { generatePhotos } from '../libs/generate-photos';
+import { generatePhotos } from '../../netlify/functions/generate-photos.ts';
 
 import Layout from '../layouts/Layout.astro';
 
-console.log(import.meta.env);
-// console.log(process.env);
-const isProd = import.meta.env.PROD;
-
-// isProd && (await generatePhotos());
+import.meta.env.PROD && (await generatePhotos());
 
 const photos = await Astro.glob('src/gallery/*.png');
-// console.log(photos[0], '-------------------');
 ---
 
 <Layout title="Welcome to Astro.">
@@ -24,7 +19,7 @@ const photos = await Astro.glob('src/gallery/*.png');
 							style={{
 								width: '100px',
 								height: '100px',
-								background: `url(${img.default.src}&fm=blurhash)`,
+								background: `url(${img.default.src}?fm=blurhash)`,
 							}}
 						/>
 						<Picture src={img.default} alt="Photo of a pizza" formats={['avif', 'webp']} />

@@ -1,7 +1,6 @@
 import fs from "fs";
 import { getStore } from "@netlify/blobs";
 
-
 export async function generatePhotos() {
 	const gallery = getStore( "gallery" );
 
