@@ -7,7 +7,7 @@ console.log('start');
 await generatePhotos();
 console.log('end');
 
-const photos: any[] = []; //(await Astro.glob('src/gallery/*.{png,jpg,jpeg,gif,avif,webp}')) ??
+const photos = await Astro.glob('src/gallery/*.{png,jpg,jpeg,gif,avif,webp}');
 ---
 
 <App title="Welcome to Astro.">
