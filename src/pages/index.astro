@@ -4,7 +4,7 @@ import { generatePhotos } from '../libs/build-photos.ts';
 
 import App from '../layouts/App.astro';
 console.log('start');
-import.meta.env.PROD && (await generatePhotos());
+await generatePhotos();
 console.log('end');
 
 const photos: any[] = []; //(await Astro.glob('src/gallery/*.{png,jpg,jpeg,gif,avif,webp}')) ??
