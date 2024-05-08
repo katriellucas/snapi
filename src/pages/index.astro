@@ -2,91 +2,51 @@
 import { Picture } from 'astro:assets';
 import { generatePhotos } from '../libs/build-photos.ts';
 
-import Layout from '../layouts/Layout.astro';
-// console.log(Astro.locals.netlify.context);
+import App from '../layouts/App.astro';
+import Image from 'astro/components/Image.astro';
 import.meta.env.PROD && (await generatePhotos());
 
-console.log(import.meta.env, '<-----------');
-
-const photos = await Astro.glob('src/gallery/*.png');
+const photos = await Astro.glob('src/gallery/*.{png,jpg,jpeg,gif,avif,webp}');
 ---
 
-<Layout title="Welcome to Astro.">
+<App title="Welcome to Astro.">
+	<Image src={photos[0].default} format="blurhash" alt="Description of the image" />
 	<main>
-		<div>
+		<div class="photo-grid">
 			{
 				photos.map(img => (
-					<>
-						<div
-							style={{
-								width: '100px',
-								height: '100px',
-								background: `url(${img.default.src}?fm=blurhash)`,
-							}}
+					<a href={img.default}>
+						<Picture
+							class="photo"
+							src={img.default}
+							alt="alt"
+							formats={['avif', 'webp']}
+							sizes={`(max-width: 360px) 1px, (max-width: 720px) 480px`}
+							widths={[1, 480, img.width]}
 						/>
-						<Picture src={img.default} alt="Photo of a pizza" formats={['avif', 'webp']} />
-					</>
+					</a>
 				))
 			}
 		</div>
 	</main>
-</Layout>
+	<footer></footer>
+</App>
 
 <style>
-	main {
-		margin: auto;
-		padding: 1rem;
-		width: 800px;
-		max-width: calc(100% - 2rem);
-		color: white;
-		font-size: 20px;
-		line-height: 1.6;
-	}
-	.astro-a {
-		position: absolute;
-		top: -32px;
-		left: 50%;
-		transform: translatex(-50%);
-		width: 220px;
-		height: auto;
-		z-index: -1;
-	}
-	h1 {
-		font-size: 4rem;
-		font-weight: 700;
-		line-height: 1;
-		text-align: center;
-		margin-bottom: 1em;
-	}
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
-	}
-	.instructions {
-		margin-bottom: 2rem;
-		border: 1px solid rgba(var(--accent-light), 25%);
-		background: linear-gradient(rgba(var(--accent-dark), 66%), rgba(var(--accent-dark), 33%));
-		padding: 1.5rem;
-		border-radius: 8px;
-	}
-	.instructions code {
-		font-size: 0.8em;
-		font-weight: bold;
-		background: rgba(var(--accent-light), 12%);
-		color: rgb(var(--accent-light));
-		border-radius: 4px;
-		padding: 0.3em 0.4em;
-	}
-	.instructions strong {
-		color: rgb(var(--accent-light));
-	}
-	.link-card-grid {
+	.photo-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-		gap: 2rem;
-		padding: 0;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 10px;
+	}
+
+	.photo {
+		width: 100%;
+		height: auto;
+		display: block;
+		border-radius: 8px;
+
+		/* object-fit: cover;
+		width: 100%;
+		aspect-ratio: 1 / 1; */
 	}
 </style>
