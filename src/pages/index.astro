@@ -1,10 +1,10 @@
 ---
 import { Picture } from 'astro:assets';
-import { generatePhotos } from '../libs/build-photos.ts';
+// import { generatePhotos } from '../libs/build-photos.ts';
 
 import App from '../layouts/App.astro';
 
-await generatePhotos();
+// await generatePhotos();
 
 console.log(import.meta.env);
 let photos: any[] = []; //await Astro.glob('/src/gallery/*.{jpg,jpeg,png,gif,webp,avif}');

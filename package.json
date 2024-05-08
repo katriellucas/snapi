@@ -6,10 +6,10 @@
     "push": "git add . && git commit -m 'test deploy' && git push",
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "node src/libs/test.js &&astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "blob": "bun libs/blob-fetcher.ts && netlify dev"
+    "blob": "bun libs/test.js && netlify dev"
   },
   "dependencies": {
     "@astrojs/check": "^0.6.0",

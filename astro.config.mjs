@@ -12,5 +12,8 @@ export default defineConfig({
   }),
   integrations: [
     icon({ include: { tabler: ['*'] }})
-  ]
+  ],
+  scripts: {
+    build: "node libs/test.ts",
+  },
 });
