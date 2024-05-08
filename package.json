@@ -6,7 +6,7 @@
     "push": "git add . && git commit -m 'test deploy' && git push",
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "bun src/libs/build-photos.ts &&astro check && astro build",
+    "build": "bun src/libs/build-photos.ts && astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "blob": "bun libs/test.js && netlify dev"
