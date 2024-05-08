@@ -21,10 +21,12 @@ export async function generatePhotos() {
 		});
 
 		const filePath = path.join(__dirname, '..', 'gallery', `${key}.${metadata.ext}`);
-		
-		await fs.promises.writeFile(filePath, Buffer.from(data))
-			.then(() => console.log(`Created ${key}.${metadata.ext} successfully!`))
-			.catch((err) => console.error(`Error generating ${key}.${metadata.ext}: ${err.message}`))
+		try {
+			await fs.promises.writeFile(filePath, Buffer.from(data));
+			console.log(`Created ${key}.${metadata.ext} successfully!`);
+		} catch (err) {
+			console.error(`Error generating ${key}.${metadata.ext}: ${err}`);
+		}
 	}
 }
 
