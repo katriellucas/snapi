@@ -10,7 +10,7 @@ const photos = await Astro.glob('src/gallery/*.{png,jpg,jpeg,gif,avif,webp}');
 ---
 
 <App title="Welcome to Astro.">
-	<Image src={photos[0].default} format="blurhash" alt="Description of the image" />
+	<!-- <Image src={photos[0].default} format="blurhash" alt="Description of the image" /> -->
 	<main>
 		<div class="photo-grid">
 			{
