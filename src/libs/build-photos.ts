@@ -19,7 +19,7 @@ export async function generatePhotos() {
 		console.log(`Created ${key}.${metadata.ext} successfully!`);
 
 		// Can also use new Uint8Array() instead of Buffer.from();
-		fs.writeFile(`./src/gallery/${key}.${metadata.ext }`, Buffer.from(data), (err) => {
+		fs.writeFile(`./public/${key}.${metadata.ext }`, Buffer.from(data), (err) => {
 			if (err) throw err;
 			console.log(`Created ${key}.${metadata.ext} successfully!`);
 		});
