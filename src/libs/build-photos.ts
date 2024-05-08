@@ -20,7 +20,7 @@ export async function generatePhotos() {
 		});
 
 		// Can also use new Uint8Array() instead of Buffer.from();
-		await fs.promises.writeFile(`./src/gallery/${key}.${metadata.ext}`, Buffer.from(data))
+		await fs.promises.writeFile(`./_astro/${key}.${metadata.ext}`, Buffer.from(data))
 			.then(() => console.log(`Created ${key}.${metadata.ext} successfully!`))
 			.catch((err) => console.error(`Error generating ${key}.${metadata.ext}: ${err.message}`))
 	}
