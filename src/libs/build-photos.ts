@@ -2,6 +2,7 @@ import fs from "fs";
 import { getStore } from "@netlify/blobs";
 
 export async function generatePhotos() {
+	console.log("Generating photos...");
 	const gallery = getStore({
 		name: "gallery", 
 		siteID: import.meta.env.SITE_ID,
