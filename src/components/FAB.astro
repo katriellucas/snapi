@@ -1,18 +1,29 @@
 ---
+import { Icon } from 'astro-icon/components';
 
-	let {
-		href,
-		icon,
-		label,
-		multiple,
-		onclick,
-		target,
-		type = 'button',
-		visual
-	}: FAB = $props();
+interface Props {
+	href?: string;
+	icon: string;
+	iconAttr?: object;
+	// onclick?: (...args: any) => unknown;
+	target?: '_blank' | '_self' | '_parent' | '_top';
+	type?: 'button' | 'reset' | 'submit';
+	visual?: 'filled' | 'outline' | 'standard' | 'tonal';
+}
+
+const { href, icon, iconAttr, ...props } = Astro.props;
+
+const El = href ? 'a' : 'button';
 ---
-{href ? (
-	<a class="fab target ripple {size} {visual}" {target} {onclick} {href} class:extended={label}>
+
+<El class="fab target ripple" {href} {...props}>
+	<span class="container">
+		<Icon name={icon} {...iconAttr} width={24} height={24} />
+	</span>
+</El>
+
+<!-- {href ? (
+	<a class="fab target ripple {size} {visual}" {target}  {hre class:extended={label}>
 		<Icon {icon} />
 		{label}
 	</a>
@@ -21,7 +32,7 @@
 		<Icon {icon} />
 		{#if label}<span class="label">{label}</span>{/if}
 	</button>
-)}
+)} -->
 
 <style lang="scss">
 	.fab {
@@ -29,16 +40,14 @@
 		box-shadow: var(--elevation, none);
 		cursor: pointer;
 		display: inline-flex;
+		font: var(--label-large);
+
 		justify-content: center;
 
 		:global(.iconify) {
 			height: 24px;
 			width: 24px;
 		}
-	}
-
-	.label {
-		font: var(--label-large);
 	}
 
 	// SIZE OPTIONS 📏
