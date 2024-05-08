@@ -7,10 +7,11 @@ interface Props {
 }
 
 const { img } = Astro.props;
-console.log(img);
+
+const href = img.src.split('/').pop()?.split('.')[0]; // for now, after think in a better solution
 ---
 
-<a href={img.src}>
+<a href={`/photo/${href}/`}>
 	<Picture
 		class="photo"
 		src={img}

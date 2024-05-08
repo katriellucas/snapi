@@ -1,5 +1,6 @@
 ---
 import { gallery } from '../../libs/stores';
+import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
 	const { blobs } = await gallery.list();
@@ -8,5 +9,7 @@ export async function getStaticPaths() {
 
 const { key } = Astro.params;
 ---
+
+<Image src=`../gallery/asd.png` alt="descriptive text" width="200" height="150" />
 
 <h1>{key}</h1>
