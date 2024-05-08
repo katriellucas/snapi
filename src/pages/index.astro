@@ -1,33 +1,27 @@
 ---
-import { Picture } from 'astro:assets';
-// import { generatePhotos } from '../libs/build-photos.ts';
-
+import { getStore } from '@netlify/blobs';
+import { gallery } from '../libs/stores';
 import App from '../layouts/App.astro';
+import Photo from '@components/Photo.astro';
 
-// await generatePhotos();
+const { blobs } = await gallery.list();
 
-console.log(import.meta.env);
-let photos = await Astro.glob('/src/gallery/*.{jpg,jpeg,png,gif,webp,avif}'); // any[] = [];
+let photos: any[];
+
+try {
+	photos = (await Astro.glob('/src/gallery/*.{jpg,jpeg,png,gif,webp,avif}')) ?? [];
+} catch {
+	photos = [];
+}
+
+// let gallery = import.meta.glob('/src/gallery/*.{jpg,jpeg,png,gif,webp,avif}');
 ---
 
 <App title="Welcome to Astro.">
 	<!-- <Image src={photos[0].default} format="blurhash" alt="Description of the image" /> -->
 	<main>
 		<div class="photo-grid">
-			{
-				photos.map(img => (
-					<a href={img.default}>
-						<Picture
-							class="photo"
-							src={img.default}
-							alt="alt"
-							formats={['avif', 'webp']}
-							sizes={`(max-width: 360px) 1px, (max-width: 720px) 480px`}
-							widths={[1, 480, img.width]}
-						/>
-					</a>
-				))
-			}
+			{photos.map(img => <Photo img={img.default} />)}
 		</div>
 	</main>
 	<footer></footer>
@@ -38,16 +32,5 @@ let photos = await Astro.glob('/src/gallery/*.{jpg,jpeg,png,gif,webp,avif}'); //
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 		gap: 10px;
-	}
-
-	.photo {
-		width: 100%;
-		height: auto;
-		display: block;
-		border-radius: 8px;
-
-		/* object-fit: cover;
-		width: 100%;
-		aspect-ratio: 1 / 1; */
 	}
 </style>

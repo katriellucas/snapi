@@ -10,7 +10,7 @@ import App from '../layouts/App.astro';
 if (Astro.request.method === 'POST') {
 	const formData = await Astro.request.formData();
 	const file = formData.get('file') as File;
-	const name = formData.get('name');
+	const name = Date.now();
 
 	const gallery = getStore('gallery');
 
