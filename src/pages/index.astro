@@ -3,11 +3,11 @@ import { Picture } from 'astro:assets';
 import { generatePhotos } from '../libs/build-photos.ts';
 
 import App from '../layouts/App.astro';
-console.log('start');
-await generatePhotos();
-console.log('end');
 
-const photos = await Astro.glob('src/gallery/*.{png,jpg,jpeg,gif,avif,webp}');
+await generatePhotos();
+
+console.log(import.meta.env);
+const photos = await Astro.glob('/src/gallery/*.{jpg,jpeg,png,gif,webp,avif}');
 ---
 
 <App title="Welcome to Astro.">
