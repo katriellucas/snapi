@@ -1,7 +1,7 @@
-import { getStore } from "@netlify/blobs";
+import { getStore } from '@netlify/blobs';
 
 export const gallery = getStore({
-	name: "gallery",
+	name: 'gallery',
 	siteID: import.meta.env.SITE_ID,
-	token: import.meta.env.SNAPI_TOKEN
+	token: import.meta.env.SNAPI_TOKEN,
 });

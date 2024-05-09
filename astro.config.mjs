@@ -1,19 +1,17 @@
 import { defineConfig } from 'astro/config';
-import netlify from "@astrojs/netlify";
+import netlify from '@astrojs/netlify';
 
-import icon from "astro-icon";
+import icon from 'astro-icon';
 
 // https://astro.build/config
 export default defineConfig({
-  output: "hybrid",
-  adapter: netlify({
-    edgeMiddleware: true,
-    imageCDN: import.meta.env.PROD
-  }),
-  integrations: [
-    icon({ include: { tabler: ['*'] }})
-  ],
-  scripts: {
-    build: "node libs/test.ts",
-  },
+	output: 'hybrid',
+	adapter: netlify({
+		edgeMiddleware: true,
+		imageCDN: import.meta.env.PROD,
+	}),
+	integrations: [icon({ include: { tabler: ['*'] } })],
+	scripts: {
+		build: 'node libs/test.ts',
+	},
 });

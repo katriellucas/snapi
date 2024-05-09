@@ -9,7 +9,8 @@
     "build": "bun src/libs/build-photos.ts && astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "blob": "bun libs/test.js && netlify dev"
+    "blob": "bun libs/test.js",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@astrojs/check": "^0.6.0",
