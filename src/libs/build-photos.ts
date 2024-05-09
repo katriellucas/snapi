@@ -7,6 +7,8 @@ export async function generatePhotos() {
 
 	const { blobs } = await gallery.list();
 
+	console.log(blobs)
+
 	// Generate photos from blobs
 	for (const { key } of blobs) {
 		const { data, metadata } = await gallery.getWithMetadata(key, {

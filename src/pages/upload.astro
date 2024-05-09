@@ -1,39 +1,36 @@
 ---
 export const prerender = false;
 
-import { getStore } from '@netlify/blobs';
 import slugify from 'slugify';
 import { fileTypeFromBlob } from 'file-type';
+import { gallery } from '../libs/stores';
 
 import Fullscreen from '../layouts/Fullscreen.astro';
 
 if (Astro.request.method === 'POST') {
-	const formData = await Astro.request.formData();
-	const file = formData.get('file') as File;
-	const uuid = self.crypto.randomUUID();
+	try {
+		const formData = await Astro.request.formData();
+		const file = formData.get('file') as File;
+		const uuid = Date.now().toString();
 
-	const gallery = getStore('gallery');
+		// Check if photo already exists
+		const key = slugify(uuid, { lower: true });
 
-	// Check if photo already exists
-	const key = slugify(uuid, { lower: true });
+		if (await gallery.get(key)) {
+			return new Response('Photo already exists.', { status: 400 });
+		}
 
-	if (await gallery.get(key)) {
-		return new Response('Photo already exists.', { status: 400 });
+		// Check if file type is valid
+		const fileType = await fileTypeFromBlob(file);
+
+		if (fileType?.ext && !['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'].includes(fileType.ext)) {
+			return new Response('Invalid file type.', { status: 400 });
+		}
+
+		await gallery.set(uuid, file, { metadata: fileType });
+	} catch (error) {
+		console.error(error);
 	}
-
-	// Check if file type is valid
-	const fileType = await fileTypeFromBlob(file);
-
-	if (fileType?.ext && !['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'].includes(fileType.ext)) {
-		return new Response('Invalid file type.', { status: 400 });
-	}
-
-	await gallery.set(uuid, file, { metadata: fileType });
-
-	// await gallery.set(key, file);
-	// entry2 = await gallery.get(key, { type: "blob" });
-
-	// const test = await gallery.get(key, { type: "glob" });
 }
 ---
 
