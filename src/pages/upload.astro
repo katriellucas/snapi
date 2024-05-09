@@ -15,7 +15,7 @@ if (Astro.request.method === 'POST') {
 	const gallery = getStore('gallery');
 
 	// Check if photo already exists
-	const key = slugify(String(name), { lower: true });
+	const key = slugify(uuid, { lower: true });
 
 	if (await gallery.get(key)) {
 		return new Response('Photo already exists.', { status: 400 });
