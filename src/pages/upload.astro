@@ -5,12 +5,12 @@ import { getStore } from '@netlify/blobs';
 import slugify from 'slugify';
 import { fileTypeFromBlob } from 'file-type';
 
-import App from '../layouts/App.astro';
+import Fullscreen from '../layouts/Fullscreen.astro';
 
 if (Astro.request.method === 'POST') {
 	const formData = await Astro.request.formData();
 	const file = formData.get('file') as File;
-	const name = Date.now();
+	const uuid = self.crypto.randomUUID();
 
 	const gallery = getStore('gallery');
 
@@ -28,7 +28,7 @@ if (Astro.request.method === 'POST') {
 		return new Response('Invalid file type.', { status: 400 });
 	}
 
-	await gallery.set(key, file, { metadata: fileType });
+	await gallery.set(uuid, file, { metadata: fileType });
 
 	// await gallery.set(key, file);
 	// entry2 = await gallery.get(key, { type: "blob" });
@@ -37,7 +37,7 @@ if (Astro.request.method === 'POST') {
 }
 ---
 
-<App title="Welcome to Astro.">
+<Fullscreen title="Welcome to Astro.">
 	<main>
 		<h1>Register</h1>
 		<form method="POST" enctype="multipart/form-data">
@@ -45,14 +45,14 @@ if (Astro.request.method === 'POST') {
 				image:
 				<input type="file" name="file" required />
 			</label>
-			<label>
+			<!-- <label>
 				name:
 				<input name="name" required />
-			</label>
+			</label> -->
 			<button>Submit</button>
 		</form>
 	</main>
-</App>
+</Fullscreen>
 
 <style>
 	main {

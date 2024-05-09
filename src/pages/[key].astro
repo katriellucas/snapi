@@ -1,0 +1,22 @@
+---
+import App from 'src/layouts/App.astro';
+import { gallery } from '../libs/stores';
+import { Picture } from 'astro:assets';
+import Photo from '@components/Photo.astro';
+
+const images = import.meta.glob('/src/gallery/*.{jpeg,jpg,png,gif}');
+
+export async function getStaticPaths() {
+	const { blobs } = await gallery.list();
+
+	return blobs.map(({ key }) => ({ params: { key } }));
+}
+
+const { key } = Astro.params;
+---
+
+<App title="Photo">
+	<!-- <a href={key} transition:persist>
+		<Photo img={images['/src/gallery/' + key + '.png']()} />
+	</a> -->
+</App>

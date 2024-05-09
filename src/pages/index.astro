@@ -3,28 +3,57 @@ import { getStore } from '@netlify/blobs';
 import { gallery } from '../libs/stores';
 import App from '../layouts/App.astro';
 import Photo from '@components/Photo.astro';
+// import pho from
 
 const { blobs } = await gallery.list();
 
-let photos: any[];
+let photos;
+
+// console.log(import.meta.env.SNAPI_TOKEN);
+// console.log(import.meta.env.SITE_ID);
+// photos = import.meta.glob('/src/gallery/*.{jpeg,jpg,png,gif}');
+console.log();
 
 try {
-	photos = (await Astro.glob('/src/gallery/*.{jpg,jpeg,png,gif,webp,avif}')) ?? [];
+	photos = import.meta.glob('/src/gallery/*.{jpeg,jpg,png,gif}') ?? [];
 } catch {
 	photos = [];
 }
 
-// let gallery = import.meta.glob('/src/gallery/*.{jpg,jpeg,png,gif,webp,avif}');
+console.log(photos, '----------------------');
+
+// try {
+// 	photos = (await Astro.glob('/src/gallery/*.{jpg,jpeg,png,gif,webp,avif}')) ?? [];
+// } catch {
+// 	photos = [];
+// }
 ---
 
 <App title="Welcome to Astro.">
 	<!-- <Image src={photos[0].default} format="blurhash" alt="Description of the image" /> -->
-	<main>
-		<div class="photo-grid">
-			{photos.map(img => <Photo img={img.default} />)}
-		</div>
-	</main>
-	<footer></footer>
+	<div class="photo-grid">
+		<!-- {photos.map(img => <Photo img={img.default} />)} -->
+		{
+			blobs.map(img => (
+				<>
+					<div>{img.key}</div>
+					<div>{'/src/gallery/' + img.key + '.png'}</div>
+					{/* <Photo img={photos['/src/gallery/' + img.key + '.png']()} /> */}
+					{/* <div>{photos['/src/gallery/1715201580611.png']()}</div> */}
+				</>
+				// <a href={img.default.src} transition:persist>
+				// 	<Photo img={img.default} />
+				// </a>
+			))
+		}
+		<!-- {
+				blobs.map(({ key }) => (
+					<a href={key} transition:persist>
+						<Photo img={photos['/src/gallery/' + key + '.png']()} />
+					</a>
+				))
+			} -->
+	</div>
 </App>
 
 <style>

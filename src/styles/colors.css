@@ -1,0 +1,15 @@
+:root {
+	color-scheme: light;
+	--bg: 16px;
+	--on-bg: 999px;
+	--on-bg-alt: 999px;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		color-scheme: dark;
+		--bg: 16px;
+		--on-bg: 999px;
+		--on-bg-alt: 999px;
+	}
+}

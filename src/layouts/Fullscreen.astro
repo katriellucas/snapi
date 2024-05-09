@@ -1,0 +1,66 @@
+---
+import Root from './Root.astro';
+import TopAppBar from '@components/TopAppBar.astro';
+import IconButton from '@components/IconButton.astro';
+import { Image } from 'astro:assets';
+import profile from '../gallery/profile.png';
+import CommonButton from '@components/CommonButton.astro';
+import FAB from '@components/FAB.astro';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<Root {title}>
+	<div id="app">
+		<div class="content">
+			<TopAppBar>
+				<section class="left-section">
+					<IconButton href="./" icon="tabler:arrow-left" />
+					<h1 class="title">{title}</h1>
+				</section>
+				<IconButton href="/settings" icon="tabler:dots-vertical" />
+			</TopAppBar>
+			<main>
+				<slot />
+			</main>
+		</div>
+	</div>
+</Root>
+
+<style lang="scss">
+	main {
+		padding: 16px;
+	}
+
+	.content {
+		height: 100dvh;
+		transition: padding 0.3s;
+	}
+
+	.left-section {
+		display: flex;
+		align-items: center;
+	}
+
+	.title {
+		font: var(--title-large);
+	}
+
+	.fab-area {
+		position: sticky;
+		bottom: 16px;
+		display: flex;
+		justify-content: end;
+		margin-right: 16px;
+	}
+
+	footer {
+		border-top: solid 1px var(--outline-variant);
+		height: 150px;
+		padding: 16px;
+	}
+</style>

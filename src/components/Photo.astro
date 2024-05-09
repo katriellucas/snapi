@@ -7,20 +7,9 @@ interface Props {
 }
 
 const { img } = Astro.props;
-
-const href = img.src.split('/').pop()?.split('.')[0]; // for now, after think in a better solution
 ---
 
-<a href={`/photo/${href}/`}>
-	<Picture
-		class="photo"
-		src={img}
-		alt="alt"
-		formats={['avif', 'webp']}
-		sizes={`(max-width: 360px) 1px, (max-width: 720px) 480px`}
-		widths={[1, 480, img.width]}
-	/>
-</a>
+<Picture class="photo" src={img} alt="alt" formats={['avif', 'webp']} widths={[img.width]} />
 
 <style>
 	.photo {

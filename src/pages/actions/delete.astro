@@ -1,0 +1,9 @@
+---
+import { gallery } from '../../libs/stores';
+const { blobs } = await gallery.list();
+
+// Generate photos from blobs
+for (const { key } of blobs) {
+	await gallery.delete(key);
+}
+---

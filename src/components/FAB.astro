@@ -17,9 +17,7 @@ const El = href ? 'a' : 'button';
 ---
 
 <El class="fab target ripple" {href} {...props}>
-	<span class="container">
-		<Icon name={icon} {...iconAttr} width={24} height={24} />
-	</span>
+	<Icon name={icon} {...iconAttr} width={24} height={24} />
 </El>
 
 <!-- {href ? (
@@ -37,72 +35,27 @@ const El = href ? 'a' : 'button';
 <style lang="scss">
 	.fab {
 		align-items: center;
+		background: #fff; /* !!! change after */
+		border-radius: 50%;
+		bottom: 16px;
 		box-shadow: var(--elevation, none);
+		color: black; /* !!! change after */
 		cursor: pointer;
 		display: inline-flex;
 		font: var(--label-large);
-
+		height: 56px;
 		justify-content: center;
-
-		:global(.iconify) {
-			height: 24px;
-			width: 24px;
-		}
+		position: fixed;
+		width: 56px;
+		right: 16px;
 	}
 
 	// SIZE OPTIONS 📏
-	.small {
-		border-radius: var(--corner-medium);
-		height: 40px;
-		width: 40px;
-	}
-
-	.medium {
-		border-radius: var(--corner-large);
-		height: 56px;
-		width: 56px;
-	}
-
-	.large {
-		border-radius: var(--corner-extra-large);
-		height: 96px;
-		width: 96px;
-
-		:global(.iconify) {
-			height: 36px;
-			width: 36px;
-		}
-	}
-
-	// COLORS OPTIONS 🎨
-	.primary {
-		background: var(--primary);
-		color: var(--on-primary);
-	}
-
-	.secondary {
-		background: var(--secondary);
-		color: var(--on-secondary);
-	}
-
-	.tertiary {
-		background: var(--tertiary);
-		color: var(--on-tertiary);
-	}
-
-	.surface {
-		background: var(--surface-container-high);
-		color: var(--primary);
-	}
 
 	.extended {
 		height: 56px;
 		min-width: 80px;
 		padding: 0 16px;
 		width: auto;
-
-		:global(.iconify) {
-			margin-right: 12px;
-		}
 	}
 </style>
