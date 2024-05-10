@@ -3,6 +3,7 @@ export const prerender = false;
 import { user } from '../libs/stores';
 import TextField from '@components/TextField.astro';
 import Fullscreen from '../layouts/Fullscreen.astro';
+import FAB from '@components/FAB.astro';
 
 let logged = false;
 
@@ -28,7 +29,11 @@ if (Astro.cookies.has('session')) {
 
 {
 	logged ? (
-		<Fullscreen title="Welcome to Astro.">true</Fullscreen>
+		<Fullscreen title="Welcome to Astro.">
+			<section class="fab-area">
+				<FAB href="/upload" icon="tabler:photo-plus" />
+			</section>
+		</Fullscreen>
 	) : (
 		<Fullscreen title="Welcome to Astro.">
 			<section class="centered-container">

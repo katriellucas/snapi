@@ -40,14 +40,24 @@ const { title } = Astro.props;
 				<slot />
 			</main>
 			<section class="fab-area">
-				<FAB href="#top" icon="tabler:arrow-up" />
+				<FAB id="top" href="#top" icon="tabler:arrow-up" />
 			</section>
 			<footer>
-				<small>&copy; 2022. All rights reserved.</small>
+				<small>© {new Date().getFullYear()}. All rights reserved.</small>
 			</footer>
 		</div>
 	</div>
 </Root>
+
+<script>
+	window.addEventListener('scroll', () =>
+		console.log(
+			window.scrollY === 0
+				? 'User is at the top of the page.'
+				: 'User is not at the top of the page.',
+		),
+	);
+</script>
 
 <style>
 	main {
