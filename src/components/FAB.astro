@@ -8,10 +8,10 @@ interface Props {
 	iconAttr?: object;
 }
 
-const { href, icon, iconAttr, ...props } = Astro.props;
+const { icon, iconAttr, ...props } = Astro.props;
 ---
 
-<a class="fab target ripple" {href} {...props}>
+<a class="fab target ripple" {...props}>
 	<Icon name={icon} {...iconAttr} width={24} height={24} />
 </a>
 

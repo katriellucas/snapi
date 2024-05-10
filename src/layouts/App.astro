@@ -40,7 +40,7 @@ const { title } = Astro.props;
 				<slot />
 			</main>
 			<section class="fab-area">
-				<FAB id="top" href="#top" icon="tabler:arrow-up" />
+				<FAB href="#top" id="top" icon="tabler:arrow-up" />
 			</section>
 			<footer>
 				<small>© {new Date().getFullYear()}. All rights reserved.</small>
@@ -50,11 +50,11 @@ const { title } = Astro.props;
 </Root>
 
 <script>
-	window.addEventListener('scroll', () =>
-		window.scrollY === 0
-			? 'User is at the top of the page.'
-			: 'User is not at the top of the page.',
-	);
+	window.addEventListener('scroll', () => {
+		const topFab = document.querySelector('#top');
+
+		window.scrollY === 0 ? topFab?.classList.add('hidden') : topFab?.classList.remove('hidden');
+	});
 </script>
 
 <style>

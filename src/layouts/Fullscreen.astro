@@ -30,6 +30,16 @@ const { title } = Astro.props;
 	</div>
 </Root>
 
+<script>
+	const backButton = document.querySelector('#back-button');
+	if (backButton) {
+		backButton.addEventListener('click', e => {
+			e.preventDefault();
+			history.back();
+		});
+	}
+</script>
+
 <style>
 	main {
 		padding: 16px;
