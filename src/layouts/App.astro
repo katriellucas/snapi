@@ -51,11 +51,9 @@ const { title } = Astro.props;
 
 <script>
 	window.addEventListener('scroll', () =>
-		console.log(
-			window.scrollY === 0
-				? 'User is at the top of the page.'
-				: 'User is not at the top of the page.',
-		),
+		window.scrollY === 0
+			? 'User is at the top of the page.'
+			: 'User is not at the top of the page.',
 	);
 </script>
 
