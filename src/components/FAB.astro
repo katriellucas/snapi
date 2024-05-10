@@ -5,20 +5,14 @@ interface Props {
 	href?: string;
 	icon: string;
 	iconAttr?: object;
-	// onclick?: (...args: any) => unknown;
-	target?: '_blank' | '_self' | '_parent' | '_top';
-	type?: 'button' | 'reset' | 'submit';
-	visual?: 'filled' | 'outline' | 'standard' | 'tonal';
 }
 
 const { href, icon, iconAttr, ...props } = Astro.props;
-
-const El = href ? 'a' : 'button';
 ---
 
-<El class="fab target ripple" {href} {...props}>
+<a class="fab target ripple" {href} {...props}>
 	<Icon name={icon} {...iconAttr} width={24} height={24} />
-</El>
+</a>
 
 <!-- {href ? (
 	<a class="fab target ripple {size} {visual}" {target}  {hre class:extended={label}>

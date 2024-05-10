@@ -84,21 +84,19 @@ if (Astro.request.method === 'POST') {
 </style>
 
 <script>
-	function loadImage() {
-		const input = document.getElementById('upload-input');
-		const outputImg = document.getElementById('upload-img');
+	const input = document.querySelector('#upload-input');
+	const outputImg = document.querySelector('#upload-img');
 
-		input.addEventListener('change', function () {
-			const file = input.files[0];
-			const reader = new FileReader();
+	if (!input || !outputImg) return;
 
-			reader.onload = function (e) {
-				outputImg.src = e.target.result;
-			};
+	input.addEventListener('change', function () {
+		const file = input.files[0];
+		const reader = new FileReader();
 
-			reader.readAsDataURL(file);
-		});
-	}
+		reader.onload = function (e) {
+			outputImg.src = e.target.result;
+		};
 
-	loadImage();
+		reader.readAsDataURL(file);
+	});
 </script>
