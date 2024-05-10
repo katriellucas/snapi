@@ -5,3 +5,9 @@ export const gallery = getStore({
 	siteID: import.meta.env.SITE_ID,
 	token: import.meta.env.SNAPI_TOKEN,
 });
+
+export const user = getStore({
+	name: 'user',
+	siteID: import.meta.env.SITE_ID,
+	token: import.meta.env.SNAPI_TOKEN,
+});

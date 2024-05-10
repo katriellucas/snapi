@@ -2,13 +2,12 @@
 import { Icon } from 'astro-icon/components';
 
 interface Props {
+	id?: string;
 	href?: string;
 	icon: string;
 	iconAttr?: object;
 	// onclick?: (...args: any) => unknown;
-	target?: '_blank' | '_self' | '_parent' | '_top';
 	type?: 'button' | 'reset' | 'submit';
-	visual?: 'filled' | 'outline' | 'standard' | 'tonal';
 }
 
 const { href, icon, iconAttr, ...props } = Astro.props;
@@ -16,7 +15,7 @@ const { href, icon, iconAttr, ...props } = Astro.props;
 const El = href ? 'a' : 'button';
 ---
 
-<El class="icon-button target" {...props} {href}>
+<El class="icon-button target" {href} {...props}>
 	<span class="container ripple {visual}">
 		<Icon name={icon} {...iconAttr} width={24} height={24} />
 	</span>
@@ -41,30 +40,5 @@ const El = href ? 'a' : 'button';
 		height: 40px;
 		justify-content: center;
 		width: 40px;
-	}
-
-	// COLORS OPTIONS 🎨
-
-	.filled {
-		background: var(--primary);
-		color: var(--on-primary);
-	}
-
-	.outline {
-		border: 1px solid var(--outline);
-		color: var(--on-surface-variant);
-	}
-
-	.standard {
-		color: var(--on-surface-variant);
-	}
-
-	.tonal {
-		background: var(--secondary-container);
-		color: var(--on-secondary-container);
-	}
-
-	.checked {
-		color: var(--primary);
 	}
 </style>

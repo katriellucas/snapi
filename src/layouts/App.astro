@@ -16,24 +16,26 @@ const { title } = Astro.props;
 
 <Root {title}>
 	<div id="app">
-		<aside class="sidebar">
-			<Image class="profile" src={profile} alt="Astro logo" width="150" height="150" />
-			<div class="name">Mr. Mittens</div>
-			<div class="profession">Cat Photographer</div>
-			<p class="description">
-				I'm Mr. Mittens, the cat-tographer extraordinaire, with a knack for capturing feline grace
-				and charm in every frame.
-			</p>
-			<CommonButton href="/contact">Contact</CommonButton>
-		</aside>
+		<TopAppBar>
+			<section class="left-section">
+				<img src="/favicon.svg" alt="Astro logo" width="40" height="40" />
+				<h1 class="title">{title}</h1>
+			</section>
+			<IconButton href="/settings" icon="tabler:dots-vertical" />
+		</TopAppBar>
 		<div class="content">
-			<TopAppBar>
-				<section class="left-section">
-					<img src="/favicon.svg" alt="Astro logo" width="40" height="40" />
-					<h1 class="title">{title}</h1>
-				</section>
-				<IconButton href="/settings" icon="tabler:dots-vertical" />
-			</TopAppBar>
+			<aside class="sidebar">
+				<div class="profile-card">
+					<Image class="profile" src={profile} alt="Astro logo" width="150" height="150" />
+					<div class="name">Mr. Mittens</div>
+					<div class="profession">Cat Photographer</div>
+					<p class="description">
+						I'm Mr. Mittens, the cat-tographer extraordinaire, with a knack for capturing feline
+						grace and charm in every frame.
+					</p>
+					<CommonButton href="/contact">Contact</CommonButton>
+				</div>
+			</aside>
 			<main>
 				<slot />
 			</main>
@@ -47,7 +49,7 @@ const { title } = Astro.props;
 	</div>
 </Root>
 
-<style lang="scss">
+<style>
 	main {
 		padding: 16px;
 	}
@@ -60,14 +62,18 @@ const { title } = Astro.props;
 	aside {
 		align-items: center;
 		display: flex;
-		border-right: 1px inset #171717; /* !!! change after */
 		flex-direction: column;
-		height: 100%;
-		padding: 32px 16px 16px;
-		position: fixed;
-		transform: translateX(-100%);
-		transition: transform 0.3s;
-		width: 300px;
+		padding: 16px;
+	}
+
+	.profile-card {
+		align-items: center;
+		background: #171717;
+		border-radius: 16px;
+		display: flex;
+		flex-direction: column;
+		padding: 16px;
+		width: 100%;
 	}
 
 	.name {
@@ -77,7 +83,11 @@ const { title } = Astro.props;
 
 	@media (min-width: 840px) {
 		aside {
-			transform: translateX(0);
+			left: -300px;
+			position: fixed;
+			width: 300px;
+			transform: translateX(100%);
+			transition: transform 0.3s;
 		}
 
 		.content {

@@ -4,6 +4,7 @@ import '../styles/styles.css';
 import '../styles/ripple.css';
 import '../styles/corner.css';
 import '../styles/colors.css';
+import '../styles/a11y.css';
 
 interface Props {
 	title: string;
@@ -32,11 +33,25 @@ const { title } = Astro.props;
 				box-sizing: border-box !important;
 			}
 
+			body,
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6,
+			p,
+			ol,
+			ul {
+				margin: 0;
+				padding: 0;
+				font-weight: normal;
+			}
+
 			body {
 				background: #0a0a0a;
 				color: #fff;
 				min-height: 100dvh;
-				margin: 0;
 			}
 
 			a[class] {
@@ -47,9 +62,13 @@ const { title } = Astro.props;
 			button {
 				all: unset;
 			}
-		</style>
 
-		<!-- dialog, hr, small, ul, li, input[type='email'], input[type='text'], input[type='date'], input[type='number'],
-input[type='password'] -->
+			img,
+			picture,
+			svg {
+				display: block;
+				max-width: 100%;
+			}
+		</style>
 	</body>
 </html>

@@ -11,7 +11,5 @@ export default defineConfig({
 		imageCDN: import.meta.env.PROD,
 	}),
 	integrations: [icon({ include: { tabler: ['*'] } })],
-	scripts: {
-		build: 'node libs/test.ts',
-	},
+	prefetch: true
 });

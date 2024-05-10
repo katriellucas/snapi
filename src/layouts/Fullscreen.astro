@@ -19,10 +19,9 @@ const { title } = Astro.props;
 		<div class="content">
 			<TopAppBar>
 				<section class="left-section">
-					<IconButton href="./" icon="tabler:arrow-left" />
+					<IconButton id="back-button" href="./" icon="tabler:arrow-left" />
 					<h1 class="title">{title}</h1>
 				</section>
-				<IconButton href="/settings" icon="tabler:dots-vertical" />
 			</TopAppBar>
 			<main>
 				<slot />
@@ -31,9 +30,10 @@ const { title } = Astro.props;
 	</div>
 </Root>
 
-<style lang="scss">
+<style>
 	main {
 		padding: 16px;
+		height: calc(100% - 64px);
 	}
 
 	.content {
