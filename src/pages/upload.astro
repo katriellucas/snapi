@@ -84,8 +84,8 @@ if (Astro.request.method === 'POST') {
 </style>
 
 <script>
-	const input = document.querySelector('#upload-input');
-	const outputImg = document.querySelector('#upload-img');
+	const input = document.querySelector('#upload-input') as HTMLInputElement;
+	const outputImg = document.querySelector('#upload-img') as HTMLImageElement;
 
 	if (!input || !outputImg) return;
 
@@ -94,7 +94,7 @@ if (Astro.request.method === 'POST') {
 		const reader = new FileReader();
 
 		reader.onload = function (e) {
-			outputImg.src = e.target.result;
+			if (e.target) outputImg.src = e.target.result as string;
 		};
 
 		reader.readAsDataURL(file);
