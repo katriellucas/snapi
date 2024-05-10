@@ -41,7 +41,7 @@ if (Astro.request.method === 'POST') {
 			<img id="upload-img" src="" alt="Astro logo" />
 			<input id="upload-input" class="visually-hidden" type="file" name="file" required />
 		</label>
-		<TextField label="Alternative text" required />
+		<TextField label="Alternative text" name="alt" required />
 		<button>Submit</button>
 	</form>
 </Fullscreen>
@@ -90,13 +90,13 @@ if (Astro.request.method === 'POST') {
 	if (!input || !outputImg) return;
 
 	input.addEventListener('change', function () {
-		const file = input.files[0];
+		const file = input.files?.[0];
 		const reader = new FileReader();
 
 		reader.onload = function (e) {
 			if (e.target) outputImg.src = e.target.result as string;
 		};
 
-		reader.readAsDataURL(file);
+		if (file) reader.readAsDataURL(file);
 	});
 </script>
