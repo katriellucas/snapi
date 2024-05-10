@@ -4,35 +4,68 @@ import { user } from '../libs/stores';
 import TextField from '@components/TextField.astro';
 import Fullscreen from '../layouts/Fullscreen.astro';
 import FAB from '@components/FAB.astro';
+import CommonButton from '@components/CommonButton.astro';
 
 let logged = false;
 
 if (Astro.request.method === 'POST') {
 	const formData = await Astro.request.formData();
-	const password = formData.get('password') as string;
-	if (password === import.meta.env.PASSWORD) {
-		const uuid = crypto.randomUUID();
-		user.set('session', uuid);
-		Astro.cookies.set('session', uuid);
+
+	if (logged === false) {
+		const password = formData.get('password') as string;
+		if (password === import.meta.env.PASSWORD) {
+			const uuid = crypto.randomUUID();
+			user.set('session', uuid);
+			Astro.cookies.set('session', uuid);
+		}
+	} else {
+		Astro.cookies.delete('session');
 	}
 }
 
 if (Astro.cookies.has('session')) {
 	const session = Astro.cookies.get('session');
-	console.log(session?.value);
-	console.log(await user.get('session'));
 	session?.value === (await user.get('session'))
 		? (logged = true)
 		: Astro.cookies.delete('session');
+}
+
+let profile;
+
+if (logged === true) {
+	profile = await user.get('profile');
 }
 ---
 
 {
 	logged ? (
 		<Fullscreen title="Welcome to Astro.">
-			<section class="fab-area">
-				<FAB href="/upload" icon="tabler:photo-plus" />
-			</section>
+			<form method="post">
+				<div class="card">
+					<TextField label="Username" name="username" value={profile?.username ?? 'John Doe'} />
+					<TextField label="Job" name="job" value={profile?.job ?? 'Photographer'} />
+					<TextField
+						label="description"
+						name="description"
+						value={profile?.description ?? 'Photographer'}
+					/>
+				</div>
+				<div class="card">
+					<h2>Call to action</h2>
+					<TextField
+						label="Button label"
+						name="action-button-label"
+						value={profile?.action_button_label ?? 'Call to action'}
+					/>
+					<TextField
+						label="Button link"
+						name="action-button-link"
+						value={profile?.action_button_link ?? 'Photographer'}
+					/>
+					<CommonButton>Save</CommonButton>
+				</div>
+			</form>
+			<FAB href="/upload" icon="tabler:photo-plus" />
 		</Fullscreen>
 	) : (
 		<Fullscreen title="Welcome to Astro.">

@@ -12,15 +12,17 @@ const { metadata } = (await gallery.getMetadata(key)) ?? {};
 const photoPath = `/src/gallery/${key}.${metadata?.ext}`;
 ---
 
-<Picture
-	transition:persist
-	class="photo"
-	src={photoList[photoPath]()}
-	alt="alt"
-	formats={['avif', 'webp']}
-	sizes={`(max-width: 360px) 1px, (max-width: 720px) 480px`}
-	widths={[1, 480]}
-/>
+<a href={key}>
+	<Picture
+		transition:persist
+		class="photo"
+		src={photoList[photoPath]()}
+		alt="alt"
+		formats={['avif', 'webp']}
+		sizes={`(max-width: 360px) 1px, (max-width: 720px) 480px`}
+		widths={[1, 480]}
+	/>
+</a>
 
 <style>
 	.photo {

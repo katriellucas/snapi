@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import { gallery } from '../libs/stores';
 import App from '../layouts/App.astro';
 import Thumbnail from '@components/Thumbnail.astro';
@@ -8,13 +10,7 @@ const { blobs } = await gallery.list();
 
 <App title="Welcome to Astro.">
 	<div class="photo-grid">
-		{
-			blobs.map(({ key }) => (
-				<a href={key} transition:persist>
-					<Thumbnail {key} />
-				</a>
-			))
-		}
+		{blobs.map(({ key }) => <Thumbnail {key} />)}
 	</div>
 </App>
 

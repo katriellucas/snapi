@@ -4,6 +4,7 @@ interface Props {
 	label: string;
 	required?: boolean;
 	name: string;
+	value?: string;
 }
 
 const { errorText, label, required, ...props } = Astro.props;
