@@ -1,0 +1,75 @@
+---
+import { user } from '../libs/stores';
+import Fullscreen from '../layouts/Fullscreen.astro';
+import TextField from '@components/TextField.astro';
+import CommonButton from '@components/CommonButton.astro';
+
+let error;
+const session = Astro.cookies.get('session');
+
+if (session) {
+	const token = await user.get('session');
+
+	if (session.value === token) {
+		return Astro.redirect('/config');
+	} else {
+		Astro.cookies.delete('session');
+	}
+}
+
+if (Astro.request.method === 'POST') {
+	const formData = await Astro.request.formData();
+
+	const password = formData.get('password') as string;
+
+	if (password === import.meta.env.PASSWORD) {
+		const uuid = crypto.randomUUID();
+		user.set('session', uuid);
+		Astro.cookies.set('session', uuid);
+
+		return Astro.redirect('/config');
+	} else {
+		error = 'Wrong password.';
+	}
+}
+---
+
+<Fullscreen title="Welcome to Astro.">
+	<section class="centered-container">
+		<form class="card" method="post">
+			<h1>Password protected!</h1>
+			<TextField
+				label="Enter your password to get access."
+				name="password"
+				errorText={error}
+				required
+			/>
+			<CommonButton>Login</CommonButton>
+		</form>
+	</section>
+</Fullscreen>
+
+<style>
+	h1 {
+		font: var(--title-large);
+	}
+
+	.centered-container {
+		align-items: center;
+		display: flex;
+		height: 100%;
+		justify-content: center;
+		width: 100%;
+	}
+
+	.card {
+		background: #171717;
+		border-radius: 12px;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		max-width: 480px;
+		padding: 24px;
+		width: 100%;
+	}
+</style>

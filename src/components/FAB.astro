@@ -2,7 +2,7 @@
 import { Icon } from 'astro-icon/components';
 
 interface Props {
-	id?: string;
+	class?: string;
 	href?: string;
 	icon: string;
 	iconAttr?: object;
@@ -15,42 +15,20 @@ const { icon, iconAttr, ...props } = Astro.props;
 	<Icon name={icon} {...iconAttr} width={24} height={24} />
 </a>
 
-<!-- {href ? (
-	<a class="fab target ripple {size} {visual}" {target}  {hre class:extended={label}>
-		<Icon {icon} />
-		{label}
-	</a>
-) : (
-	<button class="fab target ripple {size} {visual}" {onclick} {type} class:extended={label}>
-		<Icon {icon} />
-		{#if label}<span class="label">{label}</span>{/if}
-	</button>
-)} -->
-
 <style lang="scss">
 	.fab {
 		align-items: center;
-		background: #fff; /* !!! change after */
-		border-radius: 50%;
+		background: var(--accent);
+		border-radius: var(--corner-999);
 		bottom: 16px;
-		box-shadow: var(--elevation, none);
-		color: black; /* !!! change after */
+		box-shadow: var(--elevation, none); /* !!! change after */
+		color: var(--on-accent);
 		cursor: pointer;
 		display: inline-flex;
-		font: var(--label-large);
 		height: 56px;
 		justify-content: center;
 		position: fixed;
 		width: 56px;
 		right: 16px;
-	}
-
-	// SIZE OPTIONS 📏
-
-	.extended {
-		height: 56px;
-		min-width: 80px;
-		padding: 0 16px;
-		width: auto;
 	}
 </style>

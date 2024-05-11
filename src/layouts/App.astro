@@ -15,56 +15,63 @@ const { title } = Astro.props;
 ---
 
 <Root {title}>
-	<div id="app">
-		<TopAppBar>
-			<section class="left-section">
-				<img src="/favicon.svg" alt="Astro logo" width="40" height="40" />
-				<h1 class="title">{title}</h1>
-			</section>
-			<IconButton href="/settings" icon="tabler:dots-vertical" />
-		</TopAppBar>
-		<div class="content">
-			<aside class="sidebar">
-				<div class="profile-card">
-					<Image class="profile" src={profile} alt="Astro logo" width="150" height="150" />
-					<div class="name">Mr. Mittens</div>
-					<div class="profession">Cat Photographer</div>
-					<p class="description">
-						I'm Mr. Mittens, the cat-tographer extraordinaire, with a knack for capturing feline
-						grace and charm in every frame.
-					</p>
-					<CommonButton href="/contact">Contact</CommonButton>
-				</div>
-			</aside>
-			<main>
-				<slot />
-			</main>
+	<TopAppBar>
+		<section class="left-section">
+			<img src="/favicon.svg" alt="Astro logo" width="40" height="40" />
+			<h1 class="title">{title}</h1>
+		</section>
+		<IconButton href="/config" icon="tabler:settings-2" />
+	</TopAppBar>
+	<div class="content">
+		<aside class="sidebar">
+			<div class="profile-card">
+				<Image class="profile" src={profile} alt="Astro logo" width="150" height="150" />
+				<div class="name">Mr. Mittens</div>
+				<div class="profession">Cat Photographer</div>
+				<p class="description">
+					I'm Mr. Mittens, the cat-tographer, with a knack for capturing feline grace and charm in
+					every frame.
+				</p>
+				<CommonButton href="/contact">Contact</CommonButton>
+			</div>
+		</aside>
+		<main>
+			<slot />
+		</main>
+		<footer>
 			<section class="fab-area">
-				<FAB href="#top" id="top" icon="tabler:arrow-up" />
+				<FAB href="#top" class="top" icon="tabler:arrow-up" />
 			</section>
-			<footer>
-				<small>© {new Date().getFullYear()}. All rights reserved.</small>
-			</footer>
-		</div>
+			<small>© {new Date().getFullYear()}. All rights reserved.</small>
+		</footer>
 	</div>
 </Root>
 
 <script>
 	window.addEventListener('scroll', () => {
-		const topFab = document.querySelector('#top');
+		const topFab = document.querySelector('.top');
 
 		window.scrollY === 0 ? topFab?.classList.add('hidden') : topFab?.classList.remove('hidden');
 	});
 </script>
 
 <style>
+	#app {
+		display: flex;
+		flex-direction: column;
+	}
+
 	main {
+		flex: 1;
 		padding: 16px;
 	}
 
 	.content {
-		height: 100dvh;
+		display: flex;
+		flex-direction: column;
 		transition: padding 0.3s;
+		flex: 1;
+		min-height: 100dvh;
 	}
 
 	aside {
@@ -72,21 +79,26 @@ const { title } = Astro.props;
 		display: flex;
 		flex-direction: column;
 		padding: 16px;
+		border-right: solid 1px var(--outline);
+		height: calc(100% - 64px);
+		overflow-y: auto;
 	}
 
 	.profile-card {
 		align-items: center;
-		background: #171717;
-		border-radius: 16px;
 		display: flex;
+		flex: 1;
 		flex-direction: column;
-		padding: 16px;
-		width: 100%;
 	}
 
 	.name {
-		font: var(--headline-small);
+		font: var(--headline-medium);
 		margin-top: 12px;
+	}
+
+	.profession {
+		color: var(--on-bg-alt);
+		font: var(--title-medium);
 	}
 
 	@media (min-width: 840px) {
@@ -110,6 +122,7 @@ const { title } = Astro.props;
 	.description {
 		flex: 1;
 		font: var(--body-large);
+		margin: 12px 0;
 	}
 
 	.left-section {
@@ -119,13 +132,16 @@ const { title } = Astro.props;
 
 	.title {
 		font: var(--title-large);
+		margin-left: 8px;
 	}
 
 	footer {
 		align-items: center;
-		border-top: solid 1px var(--outline-variant);
+		border-top: solid 1px var(--outline);
 		display: flex;
-		height: 72px;
+		font: var(--body-large);
+
+		height: 88px;
 		padding: 0 16px;
 	}
 </style>

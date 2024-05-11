@@ -1,60 +1,60 @@
 .target {
 	outline: none;
+}
 
-	&:focus-visible,
-	&:has(:focus-visible) {
-		&.ripple,
-		> .ripple {
-			animation: outline 0.3s forwards;
-			box-shadow: 0 0 0 0 var(--secondary);
-		}
-	}
+.target:focus-visible.ripple,
+.target:has(:focus-visible).ripple,
+.target:focus-visible>.ripple,
+.target:has(:focus-visible)>.ripple {
+	animation: outline 0.3s forwards;
+	box-shadow: 0 0 0 0 #0073E6;
+}
 
-	&:hover.ripple::after,
-	&:hover > .ripple::after {
-		opacity: 0.08;
-	}
+.target:hover.ripple::after,
+.target:hover>.ripple::after {
+	opacity: 0.08;
+}
 
-	&:focus.ripple::after,
-	&:focus > .ripple::after {
-		opacity: 0.16;
-	}
+.target:focus.ripple::after,
+.target:focus>.ripple::after {
+	opacity: 0.16;
+}
 
-	&:active.ripple::after,
-	&:active > .ripple::after {
-		opacity: 0.32;
-	}
+.target:active.ripple::after,
+.target:active>.ripple::after {
+	opacity: 0.32;
+}
 
-	&.ripple,
-	> .ripple {
-		overflow: hidden;
-		position: relative;
+.target.ripple,
+.target>.ripple {
+	overflow: hidden;
+	position: relative;
+}
 
-		&::after {
-			background: currentcolor;
-			content: '';
-			height: 100%;
-			opacity: 0;
-			position: absolute;
-			right: 0;
-			top: 0;
-			transition: all 0.3s;
-			visibility: visible;
-			width: 100%;
-		}
-	}
+.target.ripple::after,
+.target>.ripple::after {
+	background: currentcolor;
+	content: '';
+	height: 100%;
+	opacity: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	transition: all 0.3s;
+	visibility: visible;
+	width: 100%;
 }
 
 @keyframes outline {
 	from {
-		box-shadow: 0 0 0 0px var(--secondary);
+		box-shadow: 0 0 0 0px #0073E6;
 	}
 
 	50% {
-		box-shadow: 0 0 0 6px var(--secondary);
+		box-shadow: 0 0 0 6px #0073E6;
 	}
 
 	to {
-		box-shadow: 0 0 0 3px var(--secondary);
+		box-shadow: 0 0 0 3px #0073E6;
 	}
 }

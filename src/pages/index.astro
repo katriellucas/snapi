@@ -3,12 +3,24 @@ export const prerender = false;
 
 import { gallery } from '../libs/stores';
 import App from '../layouts/App.astro';
+import Dialog from '@components/Dialog.astro';
+import Photo from '@components/Photo.astro';
 import Thumbnail from '@components/Thumbnail.astro';
+import IconButton from '@components/IconButton.astro';
 
 const { blobs } = await gallery.list();
+
+const photo = Astro.url.searchParams.get('photo');
 ---
 
-<App title="Welcome to Astro.">
+<App title="Snapi">
+	{
+		photo && (
+			<Dialog href={'/#' + photo}>
+				<Photo key={photo} />
+			</Dialog>
+		)
+	}
 	<div class="photo-grid">
 		{blobs.map(({ key }) => <Thumbnail {key} />)}
 	</div>
@@ -17,7 +29,31 @@ const { blobs } = await gallery.list();
 <style>
 	.photo-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-		gap: 10px;
+		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+		gap: 8px;
+	}
+
+	@media (min-width: 600px) {
+		.photo-grid {
+			grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+		}
+	}
+
+	@media (min-width: 840px) {
+		.photo-grid {
+			gap: 12px;
+		}
+	}
+
+	@media (min-width: 905px) {
+		.photo-grid {
+			grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+		}
+	}
+
+	@media (min-width: 1200px) {
+		.photo-grid {
+			grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+		}
 	}
 </style>

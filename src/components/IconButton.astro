@@ -8,15 +8,16 @@ interface Props {
 	iconAttr?: object;
 	// onclick?: (...args: any) => unknown;
 	type?: 'button' | 'reset' | 'submit';
+	primary?: boolean;
 }
 
-const { href, icon, iconAttr, ...props } = Astro.props;
+const { href, icon, iconAttr, primary, ...props } = Astro.props;
 
 const El = href ? 'a' : 'button';
 ---
 
 <El class="icon-button target" {href} {...props}>
-	<span class="container ripple {visual}">
+	<span class:list={['container ripple', { primary }]}>
 		<Icon name={icon} {...iconAttr} width={24} height={24} />
 	</span>
 </El>
@@ -24,8 +25,8 @@ const El = href ? 'a' : 'button';
 <style>
 	.icon-button {
 		align-items: center;
-		border-radius: var(--corner-full);
-		color: #fff; /* change after */
+		border-radius: var(--corner-999);
+		color: var(--accent);
 		display: inline-flex;
 		height: 48px;
 		justify-content: center;
@@ -35,10 +36,14 @@ const El = href ? 'a' : 'button';
 	.container {
 		align-items: center;
 		border-radius: var(--corner-999);
-		color: currentcolor;
 		display: flex;
 		height: 40px;
 		justify-content: center;
 		width: 40px;
+	}
+
+	.primary {
+		background: var(--accent);
+		color: var(--on-accent);
 	}
 </style>

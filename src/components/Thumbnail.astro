@@ -9,30 +9,35 @@ interface Props {
 
 const { key } = Astro.props;
 const { metadata } = (await gallery.getMetadata(key)) ?? {};
-const photoPath = `/src/gallery/${key}.${metadata?.ext}`;
+
+const image = photoList[`/src/gallery/${key}.${metadata?.ext}`]();
 ---
 
-<a href={key}>
+<a href={`?photo=${key}`} id={key} class="thumbnail target ripple">
 	<Picture
-		transition:persist
 		class="photo"
-		src={photoList[photoPath]()}
+		src={image}
 		alt="alt"
 		formats={['avif', 'webp']}
-		sizes={`(max-width: 360px) 1px, (max-width: 720px) 480px`}
-		widths={[1, 480]}
+		sizes={`(max-width: 415px) 240px, (max-width: 1200px) 400px`}
+		widths={[240, 400]}
 	/>
 </a>
 
 <style>
-	.photo {
-		width: 100%;
-		height: auto;
-		display: block;
+	.thumbnail {
 		border-radius: 8px;
+		cursor: pointer;
+		overflow: hidden;
+		position: relative;
+	}
 
-		/* object-fit: cover;
+	.photo {
+		aspect-ratio: 1 / 1;
+		display: block;
+		height: auto;
 		width: 100%;
-		aspect-ratio: 1 / 1; */
+		object-fit: cover;
+		overflow: hidden;
 	}
 </style>

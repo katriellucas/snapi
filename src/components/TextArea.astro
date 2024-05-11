@@ -7,13 +7,13 @@ interface Props {
 	value?: string;
 }
 
-const { errorText, label, required, ...props } = Astro.props;
+const { errorText, label, required, value, ...props } = Astro.props;
 ---
 
 <div class="field-container">
 	<span class="label"> {label}</span>
-	<label class="text-field">
-		<input {...props} />
+	<label>
+		<textarea class="text-field" {...props}>{value}</textarea>
 	</label>
 	<div class="error-text">{errorText}</div>
 </div>
@@ -31,8 +31,8 @@ const { errorText, label, required, ...props } = Astro.props;
 		display: flex;
 		font: var(--body-large);
 
-		height: 56px;
-		padding: 0 12px;
+		height: 150px;
+		padding: 12px;
 		position: relative;
 		transition: box-shadow 0.2s;
 		width: 100%;
@@ -47,7 +47,7 @@ const { errorText, label, required, ...props } = Astro.props;
 		box-shadow: inset 0px 0px 0px 2px var(--accent);
 	}
 
-	input {
+	textarea {
 		all: unset;
 		cursor: text;
 		height: 100%;
@@ -58,13 +58,13 @@ const { errorText, label, required, ...props } = Astro.props;
 		width: 100%;
 	}
 
-	input::placeholder {
+	textarea::placeholder {
 		color: transparent;
 		user-select: none;
 	}
 
-	input:autofill,
-	input:-webkit-autofill {
+	textarea:autofill,
+	textarea:-webkit-autofill {
 		background-clip: text;
 		-webkit-text-fill-color: var(--on-surface);
 	}
