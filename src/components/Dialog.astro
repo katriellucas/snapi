@@ -12,7 +12,7 @@ const { href } = Astro.props;
 	<IconButton primary icon="tabler:x" {href} />
 </form>
 <dialog>
-	<div class="image-wrapper">
+	<div class="wrapper">
 		<slot />
 	</div>
 </dialog>
@@ -32,9 +32,12 @@ const { href } = Astro.props;
 		z-index: 999;
 	}
 
-	.image-wrapper {
+	.wrapper {
+		align-items: center;
 		width: calc(100% - 32px);
+		display: flex;
 		height: calc(100% - 32px);
+		justify-content: center;
 	}
 
 	.close-button {

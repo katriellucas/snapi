@@ -1,0 +1,176 @@
+---
+import { Image } from 'astro:assets';
+import Root from './Root.astro';
+import TopAppBar from '@components/TopAppBar.astro';
+import CommonButton from '@components/CommonButton.astro';
+import FAB from '@components/FAB.astro';
+import TextField from '@components/TextField.astro';
+import TextArea from '@components/TextArea.astro';
+import Divider from './Divider.astro';
+
+import profileImg from '../gallery/profile.png';
+import { user } from '../libs/stores';
+
+interface Props {
+	title: string;
+}
+
+// let profile = {
+// 	username: 'John Doe',
+// 	job: 'Photographer',
+// 	description:
+// 		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium consequat risus, sit amet vestibulum velit fermentum eu. Sed vel eros nec ante interdum convallis.',
+// 	action_button_label: 'Click Here',
+// 	action_button_link: '#',
+// };
+
+const profile = await user.get('profile', { type: 'json' });
+
+const { title } = Astro.props;
+---
+
+<Root {title}>
+	<TopAppBar>
+		<section class="left-section">
+			<img src="/favicon.svg" alt="Astro logo" width="40" height="40" />
+			<h1 class="title">{title}</h1>
+		</section>
+		<CommonButton href="?action=deploy">Deploy</CommonButton>
+	</TopAppBar>
+	<div class="content">
+		<aside class="sidebar">
+			<form class="user-form" method="post" action="?action=profile-update">
+				<div class="profile-card">
+					<label class="upload-area">
+						<Image class="profile" src={profileImg} alt="Astro logo" width="150" height="150" />
+
+						<!-- <img id="upload-img" src="" alt="Astro logo" /> -->
+						<input class="visually-hidden" type="file" name="file" required />
+					</label>
+				</div>
+				<h2 class="form-title">Call to action</h2>
+				<TextField label="Name" name="name" value={profile?.name} />
+				<TextField label="Job" name="job" value={profile?.job} />
+				<TextArea label="Description" name="description" value={profile?.description} />
+				<Divider />
+
+				<h2 class="form-title">Call to action</h2>
+				<TextField label="Button label" name="action-label" value={profile?.action_label} />
+				<TextField label="Button link" name="action-link" value={profile?.action_link} />
+				<CommonButton>Save</CommonButton>
+			</form>
+		</aside>
+		<main>
+			<slot />
+		</main>
+		<footer>
+			<!-- <section class="fab-area">
+				<FAB href="#top" class="top" icon="tabler:arrow-up" />
+			</section> -->
+			<small>© {new Date().getFullYear()}. All rights reserved.</small>
+		</footer>
+	</div>
+</Root>
+
+<style>
+	#app {
+		display: flex;
+		flex-direction: column;
+	}
+
+	main {
+		flex: 1;
+		padding: 16px;
+	}
+
+	.content {
+		display: flex;
+		flex-direction: column;
+		transition: padding 0.3s;
+		flex: 1;
+		min-height: 100dvh;
+	}
+
+	aside {
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+		padding: 16px;
+		border-right: solid 1px var(--outline);
+		height: calc(100% - 64px);
+		overflow-y: auto;
+	}
+
+	.user-form {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		width: 100%;
+	}
+
+	.form-title {
+		font: var(--title-large);
+	}
+
+	.profile-card {
+		align-items: center;
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+	}
+
+	.name {
+		font: var(--headline-medium);
+		margin-top: 12px;
+	}
+
+	.profession {
+		color: var(--on-bg-alt);
+		font: var(--title-medium);
+	}
+
+	@media (min-width: 840px) {
+		aside {
+			left: -400px;
+			position: fixed;
+			width: 400px;
+			transform: translateX(100%);
+			transition: transform 0.3s;
+		}
+
+		.content {
+			padding-left: 400px;
+		}
+	}
+
+	.profile {
+		border-radius: 50%;
+	}
+
+	.description {
+		flex: 1;
+		font: var(--body-large);
+		margin: 12px 0;
+	}
+
+	.left-section {
+		display: flex;
+		align-items: center;
+		width: 100%;
+	}
+
+	.title {
+		font: var(--title-large);
+		margin-left: 8px;
+	}
+
+	footer {
+		align-items: center;
+		border-top: solid 1px var(--outline);
+		display: flex;
+		font: var(--body-large);
+
+		height: 88px;
+		padding: 0 16px;
+	}
+</style>

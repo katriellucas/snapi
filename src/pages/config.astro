@@ -1,69 +1,63 @@
 ---
-export const prerender = false;
 import { user } from '../libs/stores';
-import Fullscreen from '../layouts/Fullscreen.astro';
-import TextArea from '@components/TextArea.astro';
-import TextField from '@components/TextField.astro';
+import { validSession } from '../libs/session';
+import { profileUpdateForm, uploadPhotoForm, deployForm } from '../libs/forms';
+
+import Layout from '../layouts/Logged.astro';
 import FAB from '@components/FAB.astro';
 import CommonButton from '@components/CommonButton.astro';
 import Dialog from '@components/Dialog.astro';
 
 let error;
-const session = Astro.cookies.get('session');
+const session = Astro.cookies.get('session')?.value;
+const sessionValid = await validSession(session);
 
-if (!session) {
+if (!sessionValid) {
+	Astro.cookies.delete('session');
 	return Astro.redirect('/login');
-} else {
-	const token = await user.get('session');
-
-	if (session.value !== token) {
-		Astro.cookies.delete('session');
-		return Astro.redirect('/login');
-	}
 }
+
+const action = Astro.url.searchParams.get('action');
 
 if (Astro.request.method === 'POST') {
+	if (!sessionValid) return 'Invalid session.';
+
 	const formData = await Astro.request.formData();
+
+	switch (action) {
+		case 'profile-update':
+			profileUpdateForm(formData);
+			break;
+		case 'upload-photo':
+			uploadPhotoForm(formData);
+			break;
+		case 'deploy':
+			deployForm();
+			break;
+		default:
+			break;
+	}
 }
-
-let profile = {
-	username: 'John Doe',
-	job: 'Photographer',
-	description:
-		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium consequat risus, sit amet vestibulum velit fermentum eu. Sed vel eros nec ante interdum convallis.',
-	action_button_label: 'Click Here',
-	action_button_link: '#',
-};
-
-const uploadDialog = Astro.url.searchParams.has('upload-photo');
 ---
 
-{uploadDialog && <Dialog href="config">1</Dialog>}
+{action === 'upload-photo' && <Dialog href="config">1</Dialog>}
+{
+	action === 'deploy' && (
+		<Dialog href="config">
+			<div class="card">
+				<h1>Update your Snapi?</h1>
+				<p>Any changes you have done onyour profile or gallery will be available online.</p>
+				<form method="post" action="?action=deploy">
+					<CommonButton primary>Deploy</CommonButton>
+				</form>
+			</div>
+		</Dialog>
+	)
+}
 
-<Fullscreen title="Configuration">
-	<form method="post">
-		<div class="card">
-			<TextField label="Username" name="username" value={profile?.username} />
-			<TextField label="Job" name="job" value={profile?.job} />
-			<TextArea label="description" name="description" value={profile?.description} />
-		</div>
-		<div class="card">
-			<h2>Call to action</h2>
-			<TextField
-				label="Button label"
-				name="action-button-label"
-				value={profile?.action_button_label ?? 'Call to action'}
-			/>
-			<TextField
-				label="Button link"
-				name="action-button-link"
-				value={profile?.action_button_link ?? 'Photographer'}
-			/>
-			<CommonButton>Save</CommonButton>
-		</div>
-	</form>
-	<FAB href="?upload-photo" icon="tabler:photo-plus" />
-</Fullscreen>
+<Layout title="Configuration">
+	<FAB href="?action=upload-photo" icon="tabler:photo-plus" />
+</Layout>
 
 <style>
 	h1 {

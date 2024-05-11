@@ -1,18 +1,18 @@
 ---
 interface Props {
 	href?: string;
-	// onclick?: (...args: any) => unknown;
 	target?: '_blank' | '_self' | '_parent' | '_top';
 	type?: 'button' | 'reset' | 'submit';
-	visual?: 'filled' | 'outline' | 'standard' | 'tonal';
+	wide?: boolean;
+	primary;
 }
 
-const { href, ...props } = Astro.props;
+const { href, wide, primary, ...props } = Astro.props;
 
 const El = href ? 'a' : 'button';
 ---
 
-<El class="common-button target" {...props} {href}>
+<El class:list={['common-button target', { wide, primary }]} {...props} {href}>
 	<span class="container ripple {visual}">
 		<slot />
 	</span>
@@ -25,7 +25,6 @@ const El = href ? 'a' : 'button';
 		display: flex;
 		height: 48px;
 		justify-content: center;
-		width: 100%;
 	}
 
 	.container {
@@ -39,6 +38,10 @@ const El = href ? 'a' : 'button';
 		height: 40px;
 		justify-content: center;
 		padding: 0 24px;
+		width: 100%;
+	}
+
+	.wide {
 		width: 100%;
 	}
 </style>
