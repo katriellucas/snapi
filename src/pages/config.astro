@@ -40,23 +40,22 @@ if (Astro.request.method === 'POST') {
 }
 ---
 
-{action === 'upload-photo' && <Dialog href="config">1</Dialog>}
-{
-	action === 'deploy' && (
-		<Dialog href="config">
-			<div class="card">
-				<h1>Update your Snapi?</h1>
-				<p>Any changes you have done onyour profile or gallery will be available online.</p>
-				<form method="post" action="?action=deploy">
-					<CommonButton primary>Deploy</CommonButton>
-				</form>
-			</div>
-		</Dialog>
-	)
-}
-
 <Layout title="Configuration">
-	<FAB href="?action=upload-photo" icon="tabler:photo-plus" />
+	{
+		action === 'deploy' && (
+			<Dialog href="config">
+				<div class="form-card">
+					<h1>Update your Snapi?</h1>
+					<p>Any changes you have done onyour profile or gallery will be available online.</p>
+					<form class="form-card-footer" method="post" action="?action=deploy">
+						<CommonButton href="config">Cancel</CommonButton>
+						<CommonButton primary>Deploy</CommonButton>
+					</form>
+				</div>
+			</Dialog>
+		)
+	}
+	{action === 'upload-photo' && <Dialog href="config">1</Dialog>}
 </Layout>
 
 <style>
@@ -72,8 +71,8 @@ if (Astro.request.method === 'POST') {
 		width: 100%;
 	}
 
-	.card {
-		background: #171717;
+	.form-card {
+		background: var(--outline); /* maybe change */
 		border-radius: 12px;
 		display: flex;
 		flex-direction: column;
@@ -81,5 +80,11 @@ if (Astro.request.method === 'POST') {
 		max-width: 480px;
 		padding: 24px;
 		width: 100%;
+	}
+
+	.form-card-footer {
+		display: flex;
+		justify-content: flex-end;
+		gap: 8px;
 	}
 </style>

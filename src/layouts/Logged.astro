@@ -26,7 +26,7 @@ const { title } = Astro.props;
 			<img src="/favicon.svg" alt="Astro logo" width="40" height="40" />
 			<h1 class="title">{title}</h1>
 		</section>
-		<CommonButton href="?action=deploy">Deploy</CommonButton>
+		<CommonButton primary href="?action=deploy">Deploy</CommonButton>
 	</TopAppBar>
 	<div class="content">
 		<aside class="sidebar">
@@ -48,7 +48,7 @@ const { title } = Astro.props;
 				<h2 class="form-title">Call to action</h2>
 				<TextField label="Button label" name="action-label" value={profile?.action_label} />
 				<TextField label="Button link" name="action-link" value={profile?.action_link} />
-				<CommonButton>Save</CommonButton>
+				<CommonButton primary>Save</CommonButton>
 			</form>
 		</aside>
 		<main>
@@ -58,6 +58,8 @@ const { title } = Astro.props;
 			<!-- <section class="fab-area">
 				<FAB href="#top" class="top" icon="tabler:arrow-up" />
 			</section> -->
+			<FAB href="?action=upload-photo" icon="tabler:photo-plus" />
+
 			<small>© {new Date().getFullYear()}. All rights reserved.</small>
 		</footer>
 	</div>

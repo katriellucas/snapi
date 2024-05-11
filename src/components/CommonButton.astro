@@ -12,8 +12,8 @@ const { href, wide, primary, ...props } = Astro.props;
 const El = href ? 'a' : 'button';
 ---
 
-<El class:list={['common-button target', { wide, primary }]} {...props} {href}>
-	<span class="container ripple {visual}">
+<El class:list={['common-button target', { wide }]} {...props} {href}>
+	<span class:list={['container ripple', { primary }]}>
 		<slot />
 	</span>
 </El>
@@ -29,9 +29,8 @@ const El = href ? 'a' : 'button';
 
 	.container {
 		align-items: center;
-		background: var(--accent);
 		border-radius: 8px;
-		color: var(--on-accent);
+		color: var(--on-bg);
 		display: flex;
 		font: var(--title-medium);
 
