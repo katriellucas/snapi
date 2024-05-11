@@ -15,15 +15,6 @@ interface Props {
 	title: string;
 }
 
-// let profile = {
-// 	username: 'John Doe',
-// 	job: 'Photographer',
-// 	description:
-// 		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium consequat risus, sit amet vestibulum velit fermentum eu. Sed vel eros nec ante interdum convallis.',
-// 	action_button_label: 'Click Here',
-// 	action_button_link: '#',
-// };
-
 const profile = await user.get('profile', { type: 'json' });
 
 const { title } = Astro.props;

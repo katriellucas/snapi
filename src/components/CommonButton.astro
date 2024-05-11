@@ -4,7 +4,7 @@ interface Props {
 	target?: '_blank' | '_self' | '_parent' | '_top';
 	type?: 'button' | 'reset' | 'submit';
 	wide?: boolean;
-	primary;
+	primary?: boolean;
 }
 
 const { href, wide, primary, ...props } = Astro.props;
@@ -39,6 +39,11 @@ const El = href ? 'a' : 'button';
 		justify-content: center;
 		padding: 0 24px;
 		width: 100%;
+	}
+
+	.primary {
+		background: var(--accent);
+		color: var(--on-accent);
 	}
 
 	.wide {
