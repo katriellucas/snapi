@@ -14,7 +14,7 @@ if (Astro.request.method === 'POST') {
 
 	if (password === import.meta.env.PASSWORD) {
 		const uuid = crypto.randomUUID();
-		user.set('session', uuid);
+		await user.set('session', uuid);
 		Astro.cookies.set('session', uuid);
 
 		return Astro.redirect('/config');
@@ -24,9 +24,9 @@ if (Astro.request.method === 'POST') {
 }
 
 if (session) {
-	const isvalidSession: boolean = await validSession(session);
+	const isValidSession: boolean = await validSession(session);
 
-	if (isvalidSession) {
+	if (isValidSession) {
 		return Astro.redirect('/config');
 	} else {
 		Astro.cookies.delete('session');

@@ -33,7 +33,7 @@ export async function profileUpdateForm(formData: any) {
 		const action_label = formData.get('action-label');
 		const action_link = formData.get('action-label');
 
-		user.setJSON('profile', { name, job, description, action_label, action_link });
+		await user.setJSON('profile', { name, job, description, action_label, action_link });
 
 	} catch (error) {
 		console.error(error);
