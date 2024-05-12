@@ -1,7 +1,5 @@
 ---
 import { Picture } from 'astro:assets';
-import { gallery } from '../libs/stores';
-import { photoList } from '../libs/helpers';
 
 interface Props {
 	key: string;
@@ -11,60 +9,14 @@ interface Props {
 
 const { key, alt, image } = Astro.props;
 
-const photomap = [
-	{
-		key: '1715545557675',
-		metadata: { ext: 'webp', mime: 'image/webp', alt: 'bear' },
-		image: {
-			src: '/@fs/F:/Projects/challenges/density-doppler/src/gallery/1715545557675.webp?origWidth=256&origHeight=256&origFormat=webp',
-			width: 256,
-			height: 256,
-			format: 'webp',
-		},
-	},
-	{
-		key: '1715546773861',
-		metadata: { ext: 'png', mime: 'image/png', alt: 'wefw' },
-		image: {
-			src: '/@fs/F:/Projects/challenges/density-doppler/src/gallery/1715546773861.png?origWidth=415&origHeight=277&origFormat=png',
-			width: 415,
-			height: 277,
-			format: 'png',
-		},
-	},
-	{
-		key: '1715551377006',
-		metadata: { ext: 'jpg', mime: 'image/jpeg', alt: 'large' },
-		image: {
-			src: '/@fs/F:/Projects/challenges/density-doppler/src/gallery/1715551377006.jpg?origWidth=5472&origHeight=3648&origFormat=jpg',
-			width: 5472,
-			height: 3648,
-			format: 'jpg',
-			orientation: 1,
-		},
-	},
-	{
-		key: '1715553164282',
-		metadata: { ext: 'png', mime: 'image/png', alt: 'burk' },
-		image: {
-			src: '/@fs/F:/Projects/challenges/density-doppler/src/gallery/1715553164282.png?origWidth=720&origHeight=938&origFormat=png',
-			width: 720,
-			height: 938,
-			format: 'png',
-		},
-	},
-];
+const photomap = await fetch(Astro.url.origin + '/data/photomap.json')
+	.then(res => res.json())
+	.then(res => res.find((photo: any) => photo.key === key))
+	.catch(err => console.error(err));
 
-// const test = await fetch(Astro.url.origin + '/data/photomap.json')
-// 	.then(res => res.json())
-// 	.then(res => res.find((photo: any) => photo.key === key))
-// 	.catch(err => console.error(err));
+let photo = photomap.find((photo: any) => photo.key === key) as any;
 
-let test = photomap.find((photo: any) => photo.key === key) as any;
-
-if (test === undefined) return;
-
-console.log(test);
+if (photo === undefined) return;
 
 // const { metadata } = (await gallery.getMetadata(key)) ?? {};
 
@@ -82,11 +34,11 @@ console.log(test);
 // console.log(image, 'image');
 ---
 
-<a href={`?photo=${test.key}`} id={test.key} class="thumbnail target ripple">
+<a href={`?photo=${photo.key}`} id={photo.key} class="thumbnail target ripple">
 	<Picture
 		class="photo"
-		src={test.image}
-		alt={test.metadata.alt}
+		src={photo.image}
+		alt={photo.metadata.alt}
 		formats={['avif', 'webp']}
 		sizes={`(max-width: 415px) 240px, (max-width: 1200px) 400px`}
 		widths={[240, 400]}
