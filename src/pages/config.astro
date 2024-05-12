@@ -1,13 +1,12 @@
 ---
-import { user } from '../libs/stores';
 import { validSession } from '../libs/session';
 import { profileUpdateForm, uploadPhotoForm, deployForm } from '../libs/forms';
 
 import Layout from '../layouts/Logged.astro';
-import FAB from '@components/FAB.astro';
 import CommonButton from '@components/CommonButton.astro';
 import Dialog from '@components/Dialog.astro';
-
+import UploadArea from '@components/UploadArea.astro';
+import { Icon } from 'astro-icon/components';
 let error;
 const session = Astro.cookies.get('session')?.value;
 const sessionValid = await validSession(session);
@@ -18,6 +17,8 @@ if (!sessionValid) {
 }
 
 const action = Astro.url.searchParams.get('action');
+const alert = Astro.url.searchParams.get('alert');
+let result;
 
 if (Astro.request.method === 'POST') {
 	if (!sessionValid) return 'Invalid session.';
@@ -26,24 +27,33 @@ if (Astro.request.method === 'POST') {
 
 	switch (action) {
 		case 'profile-update':
-			profileUpdateForm(formData);
-			break;
+			result = await profileUpdateForm(formData);
+			return Astro.redirect('/config?alert=' + result);
 		case 'upload-photo':
-			uploadPhotoForm(formData);
-			break;
+			result = await uploadPhotoForm(formData);
+			return Astro.redirect('/config?alert=' + result);
 		case 'deploy':
-			deployForm();
-			break;
+			result = await deployForm();
+			return Astro.redirect('/config?alert=' + result);
 		default:
 			break;
 	}
 }
+console.log(action);
 ---
 
 <Layout title="Configuration">
 	{
+		alert && (
+			<div class="alert">
+				<Icon class="alert-icon" name="tabler:alert-square-rounded" width={24} height={24} />
+				{decodeURIComponent(alert)}
+			</div>
+		)
+	}
+	{
 		action === 'deploy' && (
-			<Dialog href="config">
+			<Dialog centered href="config">
 				<div class="form-card">
 					<h1>Update your Snapi?</h1>
 					<p>Any changes you have done onyour profile or gallery will be available online.</p>
@@ -55,7 +65,13 @@ if (Astro.request.method === 'POST') {
 			</Dialog>
 		)
 	}
-	{action === 'upload-photo' && <Dialog href="config">1</Dialog>}
+	{
+		action === 'upload-photo' && (
+			<Dialog href="config">
+				<UploadArea />
+			</Dialog>
+		)
+	}
 </Layout>
 
 <style>
@@ -86,5 +102,20 @@ if (Astro.request.method === 'POST') {
 		display: flex;
 		justify-content: flex-end;
 		gap: 8px;
+	}
+
+	.alert {
+		align-items: center;
+		background: var(--outline);
+		border-radius: var(--corner-16);
+		display: flex;
+		font: var(--body-large);
+		gap: 12px;
+		padding: 16px;
+	}
+
+	.alert-icon {
+		min-height: 24x;
+		min-width: 24x;
 	}
 </style>

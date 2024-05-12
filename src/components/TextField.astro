@@ -7,7 +7,7 @@ interface Props {
 	value?: string;
 }
 
-const { errorText, label, required, ...props } = Astro.props;
+const { errorText, label, ...props } = Astro.props;
 ---
 
 <div class="field-container">
@@ -22,6 +22,7 @@ const { errorText, label, required, ...props } = Astro.props;
 	.field-container {
 		display: flex;
 		flex-direction: column;
+		width: 100%;
 	}
 	.text-field {
 		align-items: center;

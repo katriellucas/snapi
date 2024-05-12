@@ -5,14 +5,16 @@ interface Props {
 	type?: 'button' | 'reset' | 'submit';
 	wide?: boolean;
 	primary?: boolean;
+	rainbow?: boolean;
+	style?: object;
 }
 
-const { href, wide, primary, ...props } = Astro.props;
+const { href, wide, primary, rainbow, ...props } = Astro.props;
 
 const El = href ? 'a' : 'button';
 ---
 
-<El class:list={['common-button target', { wide }]} {...props} {href}>
+<El class:list={['common-button target', { wide, rainbow }]} {...props} {href}>
 	<span class:list={['container ripple', { primary }]}>
 		<slot />
 	</span>
@@ -24,7 +26,20 @@ const El = href ? 'a' : 'button';
 		cursor: pointer;
 		display: flex;
 		height: 48px;
+		padding: 4px;
 		justify-content: center;
+		overflow: hidden;
+		border-radius: 10px;
+		position: relative;
+	}
+
+	.rainbow:before {
+		content: '';
+		height: 200%;
+		width: 200%;
+		position: absolute;
+		background: conic-gradient(#fd004c, #fe9000, #fff020, #3edf4b, #3363ff, #b102b7, #fd004c);
+		animation: spin 1.5s infinite linear;
 	}
 
 	.container {
@@ -36,7 +51,7 @@ const El = href ? 'a' : 'button';
 
 		height: 40px;
 		justify-content: center;
-		padding: 0 24px;
+		padding: 0 16px;
 		width: 100%;
 	}
 
@@ -47,5 +62,11 @@ const El = href ? 'a' : 'button';
 
 	.wide {
 		width: 100%;
+	}
+
+	@keyframes spin {
+		100% {
+			transform: rotate(-360deg);
+		}
 	}
 </style>

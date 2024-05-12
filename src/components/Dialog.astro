@@ -2,17 +2,18 @@
 import IconButton from './IconButton.astro';
 
 export interface Props {
+	centered?: boolean;
 	href: string;
 }
 
-const { href } = Astro.props;
+const { centered, href } = Astro.props;
 ---
 
 <form class="close-button" method="dialog">
 	<IconButton primary icon="tabler:x" {href} />
 </form>
 <dialog>
-	<div class="wrapper">
+	<div class:list={['wrapper', { centered }]}>
 		<slot />
 	</div>
 </dialog>
@@ -33,10 +34,13 @@ const { href } = Astro.props;
 	}
 
 	.wrapper {
-		align-items: center;
 		width: calc(100% - 32px);
-		display: flex;
 		height: calc(100% - 32px);
+	}
+
+	.centered {
+		align-items: center;
+		display: flex;
 		justify-content: center;
 	}
 

@@ -15,7 +15,7 @@ const photo = Astro.url.searchParams.get('photo');
 <App title="Snapi">
 	{
 		photo && (
-			<Dialog href={'/#' + photo}>
+			<Dialog centered href={'/#' + photo}>
 				<Photo key={photo} />
 			</Dialog>
 		)

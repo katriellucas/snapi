@@ -1,0 +1,107 @@
+---
+import TextField from '@components/TextField.astro';
+import IconButton from '@components/IconButton.astro';
+---
+
+<form method="POST" enctype="multipart/form-data" action="?action=upload-photo">
+	<label class="upload-area target ripple">
+		<img id="snapi-img" src="" alt="Image to upload" />
+		<input
+			id="snapi-input"
+			class="visually-hidden"
+			type="file"
+			name="file"
+			accept="image/jpeg, image/png, image/gif, image/webp, image/avif"
+			required
+		/>
+	</label>
+	<div class="card">
+		<TextField label="Description for screen readers" name="alt" required />
+		<IconButton primary style={{ marginBottom: '8px' }} icon="tabler:upload" />
+	</div>
+</form>
+
+<style>
+	form {
+		width: 100%;
+		height: 100%;
+	}
+
+	.upload-area {
+		background-image: url('tabler--photo-up.svg');
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
+		border-radius: 16px;
+		cursor: pointer;
+
+		display: flex;
+		width: 100%;
+		height: calc(100% - 136px);
+		overflow: hidden;
+	}
+
+	#snapi-img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain; /* Ensure the image is contained within its dimensions */
+	}
+
+	img {
+		background: var(--outline);
+		position: relative;
+	}
+
+	img::before {
+		content: '';
+		width: 100%;
+		height: 100%;
+		background: var(--outline);
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	img::after {
+		font-size: 18px;
+		color: rgb(100, 100, 100);
+
+		display: block;
+		position: absolute;
+		z-index: 2;
+		top: 5px;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	.card {
+		align-items: end;
+		background: var(--outline);
+		border-radius: var(--corner-16);
+		display: flex;
+		column-gap: 12px;
+		margin-top: 16px;
+		padding: 16px;
+	}
+</style>
+
+<script is:inline>
+	if (!window.snapiInput) {
+		let snapiInput = document.querySelector('#snapi-input');
+		let snapiImg = document.querySelector('#snapi-img');
+
+		if (snapiInput || snapiImg) {
+			snapiInput.addEventListener('change', function () {
+				const file = snapiInput.files?.[0];
+				const reader = new FileReader();
+
+				reader.onload = function (e) {
+					if (e.target) snapiImg.src = e.target.result;
+				};
+
+				if (file) reader.readAsDataURL(file);
+			});
+		}
+	}
+</script>
