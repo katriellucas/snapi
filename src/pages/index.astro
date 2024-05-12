@@ -21,7 +21,13 @@ const photo = Astro.url.searchParams.get('photo');
 		)
 	}
 	<div class="photo-grid">
-		{blobs.map(({ key }) => <Thumbnail {key} />)}
+		{
+			blobs.map(({ key }) => {
+				if (key === 'profile') return;
+
+				return <Thumbnail {key} />;
+			})
+		}
 	</div>
 </App>
 

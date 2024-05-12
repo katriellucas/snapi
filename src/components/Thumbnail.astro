@@ -9,9 +9,7 @@ interface Props {
 
 const { key } = Astro.props;
 
-const { metadata } = (await gallery.getMetadata(key)) || {
-	metadata: { ext: 'jpeg', alt: 'Broken image' },
-};
+const { metadata } = (await gallery.getMetadata(key)) ?? {};
 
 const image = photoList[`/src/gallery/${key}.${metadata?.ext}`]();
 ---
