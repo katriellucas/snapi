@@ -20,6 +20,8 @@ import { photoList } from '../libs/helpers';
 import IconButton from '@components/IconButton.astro';
 
 const session = Astro.cookies.get('session')?.value;
+
+await new Promise(resolve => setTimeout(resolve, 3000));
 const sessionValid = await validSession(session);
 
 if (!sessionValid) {
