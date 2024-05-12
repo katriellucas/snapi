@@ -11,7 +11,6 @@ const { key, alt, image } = Astro.props;
 
 const photomap = await fetch(Astro.url.origin + '/data/photomap.json')
 	.then(res => res.json())
-	.then(res => res.find((photo: any) => photo.key === key))
 	.catch(err => console.error(err));
 
 let photo = photomap.find((photo: any) => photo.key === key) as any;

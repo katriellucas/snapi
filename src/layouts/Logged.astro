@@ -18,11 +18,10 @@ interface Props {
 
 const profile = await user.get('profile', { type: 'json' }).catch(() => {
 	return {
-		username: 'John Doe',
-		job: 'Photographer',
-		description:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium consequat risus, sit amet vestibulum velit fermentum eu.',
-		action_button_label: 'Click Here',
+		username: '',
+		job: '',
+		description: '',
+		action_button_label: 'Get this website',
 		action_button_link: '#',
 	};
 });
