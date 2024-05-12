@@ -23,23 +23,34 @@ const photomap = [
 		},
 	},
 	{
-		key: '1715546069188',
-		metadata: { ext: 'png', mime: 'image/png', alt: 'hoteleiro' },
+		key: '1715546773861',
+		metadata: { ext: 'png', mime: 'image/png', alt: 'wefw' },
 		image: {
-			src: '/@fs/F:/Projects/challenges/density-doppler/src/gallery/1715546069188.png?origWidth=800&origHeight=600&origFormat=png',
-			width: 800,
-			height: 600,
+			src: '/@fs/F:/Projects/challenges/density-doppler/src/gallery/1715546773861.png?origWidth=415&origHeight=277&origFormat=png',
+			width: 415,
+			height: 277,
 			format: 'png',
 		},
 	},
 	{
-		key: '1715546588545',
-		metadata: { ext: 'jpg', mime: 'image/jpeg', alt: 'asdlásldásdlpásldsa' },
+		key: '1715551377006',
+		metadata: { ext: 'jpg', mime: 'image/jpeg', alt: 'large' },
 		image: {
-			src: '/@fs/F:/Projects/challenges/density-doppler/src/gallery/1715546588545.jpg?origWidth=1280&origHeight=960&origFormat=jpg',
-			width: 1280,
-			height: 960,
+			src: '/@fs/F:/Projects/challenges/density-doppler/src/gallery/1715551377006.jpg?origWidth=5472&origHeight=3648&origFormat=jpg',
+			width: 5472,
+			height: 3648,
 			format: 'jpg',
+			orientation: 1,
+		},
+	},
+	{
+		key: '1715553164282',
+		metadata: { ext: 'png', mime: 'image/png', alt: 'burk' },
+		image: {
+			src: '/@fs/F:/Projects/challenges/density-doppler/src/gallery/1715553164282.png?origWidth=720&origHeight=938&origFormat=png',
+			width: 720,
+			height: 938,
+			format: 'png',
 		},
 	},
 ];
@@ -50,18 +61,8 @@ const photomap = [
 // 	.catch(err => console.error(err));
 
 let test = photomap.find((photo: any) => photo.key === key) as any;
-let embed = false;
 
-if (test === undefined) {
-	embed = true;
-	// test = await gallery.getWithMetadata(key);
-	test = await gallery
-		.get(key, { type: 'arrayBuffer' })
-		.then(buffer => 'data:image;base64,' + Buffer.from(buffer).toString('base64'))
-		.catch(() => {
-			return 'data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAABqUlEQVR4nOzTrUokABSG4f2ZsGnrhoWFTVOWrRsXo5j9ySbB4EUYzVMF72FuQbAMCIJg1TJgMdgsXoLp8JbnuYDvhJezuF3ff5p09uPv6P7N/s/R/bflZnT/y+g6HxIgJkBMgJgAMQFiAsQEiAkQEyAmQEyAmAAxAWICxASICRATICZATICYADEBYgLEBIgJEBMgJkBMgJgAMQFiAsQ+P/z6Pnrg8ORxdP/u23p0f3VwObrvA2ICxASICRATICZATICYADEBYgLEBIgJEBMgJkBMgJgAMQFiAsQEiAkQEyAmQEyAmAAxAWICxASICRATICZATIDY4v/51eiBl6fX0f3V19+j+0fX29F9HxATICZATICYADEBYgLEBIgJEBMgJkBMgJgAMQFiAsQEiAkQEyAmQEyAmAAxAWICxASICRATICZATICYADEBYgLEFjvbi9EDx8+no/t7f3ZH95f/NqP7PiAmQEyAmAAxAWICxASICRATICZATICYADEBYgLEBIgJEBMgJkBMgJgAMQFiAsQEiAkQEyAmQEyAmAAxAWICxASIvQcAAP//rbcZOPJhDZsAAAAASUVORK5CYII=';
-		});
-}
+if (test === undefined) return;
 
 console.log(test);
 
@@ -81,29 +82,17 @@ console.log(test);
 // console.log(image, 'image');
 ---
 
-{
-	embed === false ? (
-		<a href={`?photo=${test.key}`} id={test.key} class="thumbnail target ripple">
-			<Picture
-				class="photo"
-				src={test.image}
-				alt={test.metadata.alt}
-				formats={['avif', 'webp']}
-				sizes={`(max-width: 415px) 240px, (max-width: 1200px) 400px`}
-				widths={[240, 400]}
-			/>
-		</a>
-	) : (
-		<span class="thumbnail">
-			<img class="photo" src={test} alt={'undeployed image'} />
-			<span class="chip">Unpublished</span>
-		</span>
-	)
-}
-
-<div style="display: flex;">
-	<slot />
-</div>
+<a href={`?photo=${test.key}`} id={test.key} class="thumbnail target ripple">
+	<Picture
+		class="photo"
+		src={test.image}
+		alt={test.metadata.alt}
+		formats={['avif', 'webp']}
+		sizes={`(max-width: 415px) 240px, (max-width: 1200px) 400px`}
+		widths={[240, 400]}
+	/>
+</a>
+<slot />
 
 <style>
 	.thumbnail {

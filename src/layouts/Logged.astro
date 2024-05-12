@@ -44,12 +44,22 @@ const { title } = Astro.props;
 			<img src="/favicon.svg" alt="Astro logo" width="40" height="40" />
 			<h1 class="title">{title}</h1>
 		</section>
-		<CommonButton
-			rainbow={profile.has_updates}
-			primary
-			href="?action=deploy"
-			style={{ marginRight: '4px' }}>Publish</CommonButton
-		>
+		{
+			profile.has_updates ? (
+				<CommonButton
+					rainbow={profile.has_updates}
+					primary
+					href="?action=deploy"
+					style={{ marginRight: '4px' }}
+				>
+					Publish
+				</CommonButton>
+			) : (
+				<CommonButton primary href="config" style={{ marginRight: '4px' }}>
+					Reload
+				</CommonButton>
+			)
+		}
 	</TopAppBar>
 	<div class="content">
 		<aside class="sidebar">

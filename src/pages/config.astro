@@ -17,6 +17,7 @@ import { gallery } from '../libs/stores';
 import Thumbnail from '@components/Thumbnail.astro';
 import Photo from '@components/Photo.astro';
 import { photoList } from '../libs/helpers';
+import IconButton from '@components/IconButton.astro';
 
 const session = Astro.cookies.get('session')?.value;
 const sessionValid = await validSession(session);
@@ -124,7 +125,8 @@ if (Astro.request.method === 'POST') {
 		alert && (
 			<div class="alert">
 				<Icon class="alert-icon" name="tabler:alert-square-rounded" width={24} height={24} />
-				{decodeURIComponent(alert)}
+				<div class="alert-text">{decodeURIComponent(alert)}</div>
+				<IconButton icon="tabler:x" href="/config" />
 			</div>
 		)
 	}
@@ -156,7 +158,6 @@ if (Astro.request.method === 'POST') {
 					<h1>Delete this photo?</h1>
 					<p>This action cannot be undone. Are you sure?</p>
 					<form class="form-card-footer" method="post" action={params}>
-						{params}
 						<CommonButton href={'config#' + key}>Cancel</CommonButton>
 						<CommonButton primary value={key} name="key">
 							Delete
@@ -174,12 +175,14 @@ if (Astro.request.method === 'POST') {
 				return (
 					<div class="thumb-wrapper">
 						<Thumbnail {key}>
-							<CommonButton wide href={`?action=edit&key=${key}`}>
-								Edit
-							</CommonButton>
-							<CommonButton wide danger href={`?action=delete&key=${key}`}>
-								Delete
-							</CommonButton>
+							<div style="display: flex;">
+								<CommonButton wide href={`?action=edit&key=${key}`}>
+									Edit
+								</CommonButton>
+								<CommonButton wide danger href={`?action=delete&key=${key}`}>
+									Delete
+								</CommonButton>
+							</div>
 						</Thumbnail>
 					</div>
 				);
@@ -233,7 +236,11 @@ if (Astro.request.method === 'POST') {
 		font: var(--body-large);
 		gap: 12px;
 		margin-bottom: 16px;
-		padding: 16px;
+		padding: 8px 16px;
+	}
+
+	.alert-text {
+		flex: 1;
 	}
 
 	.alert-icon {

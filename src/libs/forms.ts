@@ -24,7 +24,7 @@ export async function uploadPhotoForm(formData: any) {
 		const profile = await user.get('profile', { type: 'json' });
 		await user.setJSON('profile', { ...profile, has_updates: true });
 
-		return 'Photo uploaded successfully!';
+		return 'Photo uploaded successfully! Publish to see changes.';
 	} catch (error) {
 		console.error(error);
 		return 'Some error ocurred.';
@@ -60,7 +60,7 @@ export async function editPhotoForm(formData: any) {
 		const profile = await user.get('profile', { type: 'json' });
 		await user.setJSON('profile', { ...profile, has_updates: true });
 
-		return 'Photo updated successfully!';
+		return 'Photo updated successfully! Publish to see changes.';
 	} catch (error) {
 		console.error(error);
 		return 'Some error ocurred.';
@@ -88,7 +88,7 @@ export async function profileUpdateForm(formData: any) {
 		await user.setJSON('profile', { name, job, description, action_label, action_link, has_updates: true });
 		await gallery.set('profile', profile_img, { metadata: {...fileType, alt: 'Profile picture'} });
 
-		return 'Profile updated successfully!';
+		return 'Profile updated successfully! Publish to see changes.';
 	} catch (error) {
 		console.error(error);
 		return 'Some error ocurred.';
