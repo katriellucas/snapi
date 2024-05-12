@@ -13,7 +13,7 @@ export async function GET() {
 		return {
 			key,
 			metadata,
-			src: await photoList[`/src/gallery/${key}.${metadata?.ext}`](),
+			image: (await photoList[`/src/gallery/${key}.${metadata?.ext}`]()).default,
 		};
 	}));
 
