@@ -42,30 +42,32 @@ export async function deletePhotoForm(formData: any) {
 	}
 }
 
-export async function editPhotoForm(formData: any) {
-	try {
-		const key = formData.get('key');
-		const file = formData.get('file') as File;
-		const alt = formData.get('alt');
+// For the future
 
-		// Check if file type is valid
-		const fileType = await fileTypeFromBlob(file);
+// export async function editPhotoForm(formData: any) {
+// 	try {
+// 		const key = formData.get('key');
+// 		const file = formData.get('file') as File;
+// 		const alt = formData.get('alt');
 
-		if (fileType?.ext && !['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'].includes(fileType.ext)) {
-			return 'Invalid file type.';
-		}
+// 		// Check if file type is valid
+// 		const fileType = await fileTypeFromBlob(file);
 
-		await gallery.set(key, file, { metadata: { ...fileType, alt } });
+// 		if (fileType?.ext && !['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'].includes(fileType.ext)) {
+// 			return 'Invalid file type.';
+// 		}
 
-		const profile = await user.get('profile', { type: 'json' });
-		await user.setJSON('profile', { ...profile, has_updates: true });
+// 		await gallery.set(key, file, { metadata: { ...fileType, alt } });
 
-		return 'Photo updated successfully! Publish to see changes.';
-	} catch (error) {
-		console.error(error);
-		return 'Some error ocurred.';
-	}
-}
+// 		const profile = await user.get('profile', { type: 'json' });
+// 		await user.setJSON('profile', { ...profile, has_updates: true });
+
+// 		return 'Photo updated successfully! Publish to see changes.';
+// 	} catch (error) {
+// 		console.error(error);
+// 		return 'Some error ocurred.';
+// 	}
+// }
 
 
 

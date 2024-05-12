@@ -1,12 +1,6 @@
 ---
 import { validSession } from '../libs/session';
-import {
-	profileUpdateForm,
-	uploadPhotoForm,
-	deployForm,
-	deletePhotoForm,
-	editPhotoForm,
-} from '../libs/forms';
+import { profileUpdateForm, uploadPhotoForm, deployForm, deletePhotoForm } from '../libs/forms';
 
 import Layout from '../layouts/Logged.astro';
 import CommonButton from '@components/CommonButton.astro';
@@ -16,7 +10,6 @@ import { Icon } from 'astro-icon/components';
 import { gallery } from '../libs/stores';
 import Thumbnail from '@components/Thumbnail.astro';
 import Photo from '@components/Photo.astro';
-import { photoList } from '../libs/helpers';
 import IconButton from '@components/IconButton.astro';
 
 const session = Astro.cookies.get('session')?.value;
@@ -29,7 +22,6 @@ if (!sessionValid) {
 }
 
 const photomap = await fetch(Astro.url.origin + '/data/photomap.json').then(res => res.json());
-
 
 const { blobs } = await gallery.list();
 
@@ -70,9 +62,9 @@ if (Astro.request.method === 'POST') {
 		case 'deploy':
 			result = await deployForm();
 			return Astro.redirect('/config?alert=' + result);
-		case 'edit':
-			result = await editPhotoForm(formData);
-			return Astro.redirect('/config?alert=' + result);
+		// case 'edit':
+		// 	result = await editPhotoForm(formData);
+		// 	return Astro.redirect('/config?alert=' + result);
 		case 'delete':
 			result = await deletePhotoForm(formData);
 			return Astro.redirect('/config?alert=' + result);
@@ -115,7 +107,7 @@ if (Astro.request.method === 'POST') {
 		)
 	}
 	{
-		(action === 'upload-photo' || action === 'edit') && (
+		action === 'upload-photo' && (
 			<Dialog href={key ? 'config#' + key : 'config'}>
 				<UploadArea key={key ?? undefined} action={params} />
 			</Dialog>
@@ -146,9 +138,6 @@ if (Astro.request.method === 'POST') {
 					<div class="thumb-wrapper">
 						<Thumbnail {key}>
 							<div style="display: flex;">
-								<CommonButton wide href={`?action=edit&key=${key}`}>
-									Edit
-								</CommonButton>
 								<CommonButton wide danger href={`?action=delete&key=${key}`}>
 									Delete
 								</CommonButton>
