@@ -11,7 +11,7 @@ import Thumbnail from '@components/Thumbnail.astro';
 
 // const { blobs } = []; //await gallery.list();
 
-const res = await fetch('http://localhost:4321/data/photomap').then(res => res.json());
+const res = await fetch('/data/photomap').then(res => res.json());
 console.log(res);
 
 const photo = Astro.url.searchParams.get('photo');
