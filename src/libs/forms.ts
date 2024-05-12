@@ -48,8 +48,6 @@ export async function editPhotoForm(formData: any) {
 		const file = formData.get('file') as File;
 		const alt = formData.get('alt');
 
-		console.log(formData)
-
 		// Check if file type is valid
 		const fileType = await fileTypeFromBlob(file);
 

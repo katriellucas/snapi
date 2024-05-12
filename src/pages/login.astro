@@ -32,6 +32,10 @@ if (Astro.request.method === 'POST') {
 		error = 'Wrong password.';
 	}
 }
+
+if (Astro.request.method === 'GET') {
+	Astro.cookies.delete('session');
+}
 ---
 
 <Fullscreen title="Welcome to Astro.">

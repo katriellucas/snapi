@@ -5,11 +5,65 @@ import { photoList } from '../libs/helpers';
 
 interface Props {
 	key: string;
-	alt: any;
-	image: any;
+	alt?: any;
+	image?: any;
 }
 
 const { key, alt, image } = Astro.props;
+
+const photomap = [
+	{
+		key: '1715545557675',
+		metadata: { ext: 'webp', mime: 'image/webp', alt: 'bear' },
+		image: {
+			src: '/@fs/F:/Projects/challenges/density-doppler/src/gallery/1715545557675.webp?origWidth=256&origHeight=256&origFormat=webp',
+			width: 256,
+			height: 256,
+			format: 'webp',
+		},
+	},
+	{
+		key: '1715546069188',
+		metadata: { ext: 'png', mime: 'image/png', alt: 'hoteleiro' },
+		image: {
+			src: '/@fs/F:/Projects/challenges/density-doppler/src/gallery/1715546069188.png?origWidth=800&origHeight=600&origFormat=png',
+			width: 800,
+			height: 600,
+			format: 'png',
+		},
+	},
+	{
+		key: '1715546588545',
+		metadata: { ext: 'jpg', mime: 'image/jpeg', alt: 'asdlásldásdlpásldsa' },
+		image: {
+			src: '/@fs/F:/Projects/challenges/density-doppler/src/gallery/1715546588545.jpg?origWidth=1280&origHeight=960&origFormat=jpg',
+			width: 1280,
+			height: 960,
+			format: 'jpg',
+		},
+	},
+];
+
+// const test = await fetch(Astro.url.origin + '/data/photomap.json')
+// 	.then(res => res.json())
+// 	.then(res => res.find((photo: any) => photo.key === key))
+// 	.catch(err => console.error(err));
+
+let test = photomap.find((photo: any) => photo.key === key) as any;
+let embed = false;
+
+if (test === undefined) {
+	embed = true;
+	// test = await gallery.getWithMetadata(key);
+	test = await gallery
+		.get(key, { type: 'arrayBuffer' })
+		.then(buffer => 'data:image;base64,' + Buffer.from(buffer).toString('base64'))
+		.catch(() => {
+			return 'data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAABqUlEQVR4nOzTrUokABSG4f2ZsGnrhoWFTVOWrRsXo5j9ySbB4EUYzVMF72FuQbAMCIJg1TJgMdgsXoLp8JbnuYDvhJezuF3ff5p09uPv6P7N/s/R/bflZnT/y+g6HxIgJkBMgJgAMQFiAsQEiAkQEyAmQEyAmAAxAWICxASICRATICZATICYADEBYgLEBIgJEBMgJkBMgJgAMQFiAsQ+P/z6Pnrg8ORxdP/u23p0f3VwObrvA2ICxASICRATICZATICYADEBYgLEBIgJEBMgJkBMgJgAMQFiAsQEiAkQEyAmQEyAmAAxAWICxASICRATICZATIDY4v/51eiBl6fX0f3V19+j+0fX29F9HxATICZATICYADEBYgLEBIgJEBMgJkBMgJgAMQFiAsQEiAkQEyAmQEyAmAAxAWICxASICRATICZATICYADEBYgLEFjvbi9EDx8+no/t7f3ZH95f/NqP7PiAmQEyAmAAxAWICxASICRATICZATICYADEBYgLEBIgJEBMgJkBMgJgAMQFiAsQEiAkQEyAmQEyAmAAxAWICxASIvQcAAP//rbcZOPJhDZsAAAAASUVORK5CYII=';
+		});
+}
+
+console.log(test);
 
 // const { metadata } = (await gallery.getMetadata(key)) ?? {};
 
@@ -17,8 +71,7 @@ const { key, alt, image } = Astro.props;
 
 // const { metadata } = (await gallery.getMetadata(key)) ?? {};
 // console.log(key, metadata?.ext, '<- here');
-const i = await photoList[`/src/gallery/${key}.${alt?.ext}`]();
-console.log(i.default);
+// const i = await photoList[`/src/gallery/${key}.${alt?.ext}`]();
 // console.log(photoList, 'photo');
 
 // console.log(metadata);
@@ -28,16 +81,26 @@ console.log(i.default);
 // console.log(image, 'image');
 ---
 
-<a href={`?photo=${key}`} id={key} class="thumbnail target ripple">
-	<Picture
-		class="photo"
-		src={image}
-		alt={alt}
-		formats={['avif', 'webp']}
-		sizes={`(max-width: 415px) 240px, (max-width: 1200px) 400px`}
-		widths={[240, 400]}
-	/>
-</a>
+{
+	embed === false ? (
+		<a href={`?photo=${test.key}`} id={test.key} class="thumbnail target ripple">
+			<Picture
+				class="photo"
+				src={test.image}
+				alt={test.metadata.alt}
+				formats={['avif', 'webp']}
+				sizes={`(max-width: 415px) 240px, (max-width: 1200px) 400px`}
+				widths={[240, 400]}
+			/>
+		</a>
+	) : (
+		<span class="thumbnail">
+			<img class="photo" src={test} alt={'undeployed image'} />
+			<span class="chip">Unpublished</span>
+		</span>
+	)
+}
+
 <div style="display: flex;">
 	<slot />
 </div>
@@ -57,5 +120,20 @@ console.log(i.default);
 		width: 100%;
 		object-fit: cover;
 		overflow: hidden;
+		position: relative;
+	}
+
+	.chip {
+		background: var(--accent);
+		border-radius: var(--corner-16);
+		color: var(--on-accent);
+		display: inline-flex;
+		font: var(--label-medium);
+		padding: 4px 8px;
+		user-select: none;
+		pointer-events: none;
+		position: absolute;
+		top: 16px;
+		right: 16px;
 	}
 </style>

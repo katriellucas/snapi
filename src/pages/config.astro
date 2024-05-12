@@ -26,9 +26,51 @@ if (!sessionValid) {
 	return Astro.redirect('/login');
 }
 
-const photomap = await fetch(Astro.url.origin + '/data/photomap.json')
-	.then(res => res.json())
-	.catch(err => console.error(err));
+// const photomap = await fetch(Astro.url.origin + '/data/photomap.json').then(res => res.json());
+const photomap = [
+	{
+		key: '1715545557675',
+		metadata: { ext: 'webp', mime: 'image/webp', alt: 'bear' },
+		image: {
+			src: '/@fs/F:/Projects/challenges/density-doppler/src/gallery/1715545557675.webp?origWidth=256&origHeight=256&origFormat=webp',
+			width: 256,
+			height: 256,
+			format: 'webp',
+		},
+	},
+	{
+		key: '1715546069188',
+		metadata: { ext: 'png', mime: 'image/png', alt: 'hoteleiro' },
+		image: {
+			src: '/@fs/F:/Projects/challenges/density-doppler/src/gallery/1715546069188.png?origWidth=800&origHeight=600&origFormat=png',
+			width: 800,
+			height: 600,
+			format: 'png',
+		},
+	},
+	{
+		key: '1715546588545',
+		metadata: { ext: 'jpg', mime: 'image/jpeg', alt: 'asdlásldásdlpásldsa' },
+		image: {
+			src: '/@fs/F:/Projects/challenges/density-doppler/src/gallery/1715546588545.jpg?origWidth=1280&origHeight=960&origFormat=jpg',
+			width: 1280,
+			height: 960,
+			format: 'jpg',
+		},
+	},
+];
+
+const { blobs } = await gallery.list();
+
+// const serverPhotomap = await Promise.all(
+// 	blobs.map(async ({ key }) => {
+// 		const photo = photomap.find((photo: { key: string }) => photo.key === key);
+
+// 		return photo === undefined ? gallery.getWithMetadata(key) : photo;
+// 	}),
+// );
+
+// console.log(serverPhotomap);
 
 // for (const { key } of blobs) {
 // 	gallery.delete(key);
@@ -70,6 +112,7 @@ if (Astro.request.method === 'POST') {
 ---
 
 <Layout title="Configuration">
+	<!-- alerts -->
 	{
 		photo && (
 			<Dialog centered href={'/config#' + photo}>
@@ -123,13 +166,14 @@ if (Astro.request.method === 'POST') {
 			</Dialog>
 		)
 	}
+	<!-- alerts -->
 
 	<div class="photo-grid">
 		{
-			photomap.map(({ key, metadata, image }: any) => {
+			blobs.map(({ key }: any) => {
 				return (
 					<div class="thumb-wrapper">
-						<Thumbnail {key} alt={metadata} {image}>
+						<Thumbnail {key}>
 							<CommonButton wide href={`?action=edit&key=${key}`}>
 								Edit
 							</CommonButton>
