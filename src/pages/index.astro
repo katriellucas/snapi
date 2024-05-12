@@ -26,6 +26,8 @@ const photo = Astro.url.searchParams.get('photo');
 		)
 	}
 	<div class="photo-grid">
+		{res}
+		{JSON.stringify(res)}
 		<!-- {
 			blobs.map(({ key }) => {
 				if (key === 'profile') return;
