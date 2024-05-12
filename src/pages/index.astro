@@ -7,7 +7,12 @@ import Dialog from '@components/Dialog.astro';
 import Photo from '@components/Photo.astro';
 import Thumbnail from '@components/Thumbnail.astro';
 
-const { blobs } = await gallery.list();
+// console.log(fetch('/').catch(err => console.error(err)));
+
+// const { blobs } = []; //await gallery.list();
+
+const res = await fetch('http://localhost:4321/data/photomap').then(res => res.json());
+console.log(res);
 
 const photo = Astro.url.searchParams.get('photo');
 ---
@@ -21,13 +26,13 @@ const photo = Astro.url.searchParams.get('photo');
 		)
 	}
 	<div class="photo-grid">
-		{
+		<!-- {
 			blobs.map(({ key }) => {
 				if (key === 'profile') return;
 
 				return <Thumbnail {key} />;
 			})
-		}
+		} -->
 	</div>
 </App>
 

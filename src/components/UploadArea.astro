@@ -1,18 +1,26 @@
 ---
 import TextField from '@components/TextField.astro';
 import IconButton from '@components/IconButton.astro';
+import { photoList } from 'src/libs/helpers';
+import { Image } from 'astro:assets';
+import { gallery } from '../libs/stores';
 
 interface Props {
-	image?: string;
+	key?: string;
 	action: string;
 }
 
-const { action, image } = Astro.props;
+const { action, key } = Astro.props;
+// if (key) {
+// 	const { metadata } = (await gallery.getMetadata(key)) ?? {};
+// }
+
+// const image = await photoList[`/src/gallery/${key}.png`]().catch(() => '/src/gallery/profile.png');
 ---
 
 <form method="POST" enctype="multipart/form-data" {action}>
 	<label class="upload-area target ripple">
-		<img id="snapi-img" src={image} alt="Image to upload" />
+		<img id="snapi-img" src="" alt="Image to upload" />
 		<input
 			id="snapi-input"
 			class="visually-hidden no-js"
@@ -24,7 +32,13 @@ const { action, image } = Astro.props;
 	</label>
 	<div class="card">
 		<TextField label="Description for screen readers" name="alt" required />
-		<IconButton primary style={{ marginBottom: '8px' }} icon="tabler:upload" />
+		<IconButton
+			primary
+			style={{ marginBottom: '8px' }}
+			icon="tabler:upload"
+			name="key"
+			value={key}
+		/>
 	</div>
 </form>
 

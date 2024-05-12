@@ -15,6 +15,8 @@ import UploadArea from '@components/UploadArea.astro';
 import { Icon } from 'astro-icon/components';
 import { gallery } from '../libs/stores';
 import Thumbnail from '@components/Thumbnail.astro';
+import Photo from '@components/Photo.astro';
+import { photoList } from '../libs/helpers';
 
 const session = Astro.cookies.get('session')?.value;
 const sessionValid = await validSession(session);
@@ -26,8 +28,14 @@ if (!sessionValid) {
 
 const { blobs } = await gallery.list();
 
-const alert = Astro.url.searchParams.get('alert');
+// for (const { key } of blobs) {
+// 	gallery.delete(key);
+// }
+
 const action = Astro.url.searchParams.get('action');
+const alert = Astro.url.searchParams.get('alert');
+const photo = Astro.url.searchParams.get('photo');
+
 const key = Astro.url.searchParams.get('key');
 const params = `?${Astro.url.searchParams}`;
 
@@ -61,6 +69,13 @@ if (Astro.request.method === 'POST') {
 
 <Layout title="Configuration">
 	{
+		photo && (
+			<Dialog centered href={'/config#' + photo}>
+				<Photo key={photo} />
+			</Dialog>
+		)
+	}
+	{
 		alert && (
 			<div class="alert">
 				<Icon class="alert-icon" name="tabler:alert-square-rounded" width={24} height={24} />
@@ -85,7 +100,7 @@ if (Astro.request.method === 'POST') {
 	{
 		(action === 'upload-photo' || action === 'edit') && (
 			<Dialog href={key ? 'config#' + key : 'config'}>
-				<UploadArea image="" action={params} />
+				<UploadArea key={key ?? undefined} action={params} />
 			</Dialog>
 		)
 	}
@@ -112,16 +127,15 @@ if (Astro.request.method === 'POST') {
 				if (key === 'profile') return;
 
 				return (
-					<div>
-						<Thumbnail {key} />
-						<div style="display: flex;">
+					<div class="thumb-wrapper">
+						<Thumbnail {key}>
 							<CommonButton wide href={`?action=edit&key=${key}`}>
 								Edit
 							</CommonButton>
 							<CommonButton wide danger href={`?action=delete&key=${key}`}>
 								Delete
 							</CommonButton>
-						</div>
+						</Thumbnail>
 					</div>
 				);
 			})
@@ -210,5 +224,10 @@ if (Astro.request.method === 'POST') {
 		.photo-grid {
 			grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 		}
+	}
+
+	.thumb-wrapper {
+		display: flex;
+		flex-direction: column;
 	}
 </style>

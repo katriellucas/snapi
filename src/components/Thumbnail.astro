@@ -10,8 +10,15 @@ interface Props {
 const { key } = Astro.props;
 
 const { metadata } = (await gallery.getMetadata(key)) ?? {};
+// console.log(key, metadata?.ext, '<- here');
+// console.log(photoList[`/src/gallery/${key}.${metadata?.ext}`](), '-----------');
+console.log(photoList, 'photo');
 
-const image = photoList[`/src/gallery/${key}.${metadata?.ext}`]();
+console.log(metadata);
+
+const image = photoList[`/src/gallery/${key}.${metadata}.avif`]();
+
+// console.log(image, 'image');
 ---
 
 <a href={`?photo=${key}`} id={key} class="thumbnail target ripple">
@@ -24,6 +31,9 @@ const image = photoList[`/src/gallery/${key}.${metadata?.ext}`]();
 		widths={[240, 400]}
 	/>
 </a>
+<div style="display: flex;">
+	<slot />
+</div>
 
 <style>
 	.thumbnail {
