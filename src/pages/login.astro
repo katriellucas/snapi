@@ -8,6 +8,16 @@ import CommonButton from '@components/CommonButton.astro';
 let error;
 const session = Astro.cookies.get('session')?.value; // undefined if no session
 
+if (session) {
+	const isValidSession: boolean = await validSession(session);
+
+	if (isValidSession) {
+		return Astro.redirect('/config');
+	} else {
+		Astro.cookies.delete('session');
+	}
+}
+
 if (Astro.request.method === 'POST') {
 	const formData = await Astro.request.formData();
 	const password = formData.get('password') as string;
@@ -20,16 +30,6 @@ if (Astro.request.method === 'POST') {
 		return Astro.redirect('/config');
 	} else {
 		error = 'Wrong password.';
-	}
-}
-
-if (session) {
-	const isValidSession: boolean = await validSession(session);
-
-	if (isValidSession) {
-		return Astro.redirect('/config');
-	} else {
-		Astro.cookies.delete('session');
 	}
 }
 ---
