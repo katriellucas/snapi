@@ -8,7 +8,10 @@ interface Props {
 }
 
 const { key } = Astro.props;
-const { metadata } = (await gallery.getMetadata(key)) ?? {};
+
+const { metadata } = (await gallery.getMetadata(key)) || {
+	metadata: { ext: 'jpeg', alt: 'Broken image' },
+};
 
 const image = photoList[`/src/gallery/${key}.${metadata?.ext}`]();
 ---
@@ -17,7 +20,7 @@ const image = photoList[`/src/gallery/${key}.${metadata?.ext}`]();
 	<Picture
 		class="photo"
 		src={image}
-		alt="alt"
+		alt={`${metadata?.alt}`}
 		formats={['avif', 'webp']}
 		sizes={`(max-width: 415px) 240px, (max-width: 1200px) 400px`}
 		widths={[240, 400]}

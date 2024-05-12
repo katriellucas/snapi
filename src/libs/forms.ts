@@ -3,7 +3,6 @@ import { gallery, user } from '../libs/stores';
 
 export async function uploadPhotoForm(formData: any) {
 	try {
-		console.log(formData);
 		const file = formData.get('file') as File;
 		const alt = formData.get('alt');
 		const uuid = Date.now().toString();
@@ -32,6 +31,44 @@ export async function uploadPhotoForm(formData: any) {
 	}
 }
 
+export async function deletePhotoForm(formData: any) {
+	try {
+		const key = formData.get('key');
+		await gallery.delete(key);
+		return 'Photo deleted successfully!';
+	} catch (error) {
+		console.error(error);
+		return 'Some error ocurred.';
+	}
+}
+
+export async function editPhotoForm(formData: any) {
+	try {
+		const key = formData.get('key');
+		const file = formData.get('file') as File;
+		const alt = formData.get('alt');
+
+		// Check if file type is valid
+		const fileType = await fileTypeFromBlob(file);
+
+		if (fileType?.ext && !['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'].includes(fileType.ext)) {
+			return 'Invalid file type.';
+		}
+
+		await gallery.set(key, file, { metadata: { ...fileType, alt } });
+
+		const profile = await user.get('profile', { type: 'json' });
+		await user.setJSON('profile', { ...profile, has_updates: true });
+
+		return 'Photo updated successfully!';
+	} catch (error) {
+		console.error(error);
+		return 'Some error ocurred.';
+	}
+}
+
+
+
 export async function profileUpdateForm(formData: any) {
 	try {
 		const name = formData.get('name');
@@ -39,8 +76,17 @@ export async function profileUpdateForm(formData: any) {
 		const description = formData.get('description');
 		const action_label = formData.get('action-label');
 		const action_link = formData.get('action-label');
+		const profile_img = formData.get('profile-img');
+
+		// Check if file type is valid
+		const fileType = await fileTypeFromBlob(profile_img);
+
+		if (fileType?.ext && !['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'].includes(fileType.ext)) {
+			return 'Invalid file type.';
+		}
 
 		await user.setJSON('profile', { name, job, description, action_label, action_link, has_updates: true });
+		await gallery.set('profile', profile_img, { metadata: {...fileType, alt: 'Profile picture'} });
 
 		return 'Profile updated successfully!';
 	} catch (error) {

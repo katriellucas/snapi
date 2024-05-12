@@ -1,13 +1,21 @@
 ---
 import { validSession } from '../libs/session';
-import { profileUpdateForm, uploadPhotoForm, deployForm } from '../libs/forms';
+import {
+	profileUpdateForm,
+	uploadPhotoForm,
+	deployForm,
+	deletePhotoForm,
+	editPhotoForm,
+} from '../libs/forms';
 
 import Layout from '../layouts/Logged.astro';
 import CommonButton from '@components/CommonButton.astro';
 import Dialog from '@components/Dialog.astro';
 import UploadArea from '@components/UploadArea.astro';
 import { Icon } from 'astro-icon/components';
-let error;
+import { gallery } from '../libs/stores';
+import Thumbnail from '@components/Thumbnail.astro';
+
 const session = Astro.cookies.get('session')?.value;
 const sessionValid = await validSession(session);
 
@@ -16,15 +24,19 @@ if (!sessionValid) {
 	return Astro.redirect('/login');
 }
 
-const action = Astro.url.searchParams.get('action');
+const { blobs } = await gallery.list();
+
 const alert = Astro.url.searchParams.get('alert');
-let result;
+const action = Astro.url.searchParams.get('action');
+const key = Astro.url.searchParams.get('key');
+const params = `?${Astro.url.searchParams}`;
 
 if (Astro.request.method === 'POST') {
 	if (!sessionValid) return 'Invalid session.';
 
 	const formData = await Astro.request.formData();
 
+	let result;
 	switch (action) {
 		case 'profile-update':
 			result = await profileUpdateForm(formData);
@@ -35,11 +47,16 @@ if (Astro.request.method === 'POST') {
 		case 'deploy':
 			result = await deployForm();
 			return Astro.redirect('/config?alert=' + result);
+		case 'edit':
+			result = await editPhotoForm(formData);
+			return Astro.redirect('/config?alert=' + result);
+		case 'delete':
+			result = await deletePhotoForm(formData);
+			return Astro.redirect('/config?alert=' + result);
 		default:
 			break;
 	}
 }
-console.log(action);
 ---
 
 <Layout title="Configuration">
@@ -56,27 +73,69 @@ console.log(action);
 			<Dialog centered href="config">
 				<div class="form-card">
 					<h1>Update your Snapi?</h1>
-					<p>Any changes you have done onyour profile or gallery will be available online.</p>
-					<form class="form-card-footer" method="post" action="?action=deploy">
+					<p>Any changes you have done on your profile or gallery will be available online.</p>
+					<form class="form-card-footer" method="post" action={params}>
 						<CommonButton href="config">Cancel</CommonButton>
-						<CommonButton primary>Deploy</CommonButton>
+						<CommonButton primary>Publish</CommonButton>
 					</form>
 				</div>
 			</Dialog>
 		)
 	}
 	{
-		action === 'upload-photo' && (
-			<Dialog href="config">
-				<UploadArea />
+		(action === 'upload-photo' || action === 'edit') && (
+			<Dialog href={key ? 'config#' + key : 'config'}>
+				<UploadArea image="" action={params} />
 			</Dialog>
 		)
 	}
+	{
+		action === 'delete' && (
+			<Dialog centered href={'config#' + key}>
+				<div class="form-card">
+					<h1>Delete this photo?</h1>
+					<p>This action cannot be undone. Are you sure?</p>
+					<form class="form-card-footer" method="post" action={params}>
+						{params}
+						<CommonButton href={'config#' + key}>Cancel</CommonButton>
+						<CommonButton primary value={key} name="key">
+							Delete
+						</CommonButton>
+					</form>
+				</div>
+			</Dialog>
+		)
+	}
+	<div class="photo-grid">
+		{
+			blobs.map(({ key }) => {
+				if (key === 'profile') return;
+
+				return (
+					<div>
+						<Thumbnail {key} />
+						<div style="display: flex;">
+							<CommonButton wide href={`?action=edit&key=${key}`}>
+								Edit
+							</CommonButton>
+							<CommonButton wide danger href={`?action=delete&key=${key}`}>
+								Delete
+							</CommonButton>
+						</div>
+					</div>
+				);
+			})
+		}
+	</div>
 </Layout>
 
 <style>
 	h1 {
 		font: var(--title-large);
+	}
+
+	p {
+		font: var(--body-large);
 	}
 
 	.centered-container {
@@ -90,6 +149,9 @@ console.log(action);
 	.form-card {
 		background: var(--outline); /* maybe change */
 		border-radius: 12px;
+		box-shadow:
+			0px 1px 2px rgba(0, 0, 0, 0.3),
+			0px 2px 6px 2px rgba(0, 0, 0, 0.15);
 		display: flex;
 		flex-direction: column;
 		gap: 16px;
@@ -101,7 +163,7 @@ console.log(action);
 	.form-card-footer {
 		display: flex;
 		justify-content: flex-end;
-		gap: 8px;
+		gap: 4px;
 	}
 
 	.alert {
@@ -111,11 +173,42 @@ console.log(action);
 		display: flex;
 		font: var(--body-large);
 		gap: 12px;
+		margin-bottom: 16px;
 		padding: 16px;
 	}
 
 	.alert-icon {
 		min-height: 24x;
 		min-width: 24x;
+	}
+
+	.photo-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+		gap: 8px;
+	}
+
+	@media (min-width: 600px) {
+		.photo-grid {
+			grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+		}
+	}
+
+	@media (min-width: 840px) {
+		.photo-grid {
+			gap: 12px;
+		}
+	}
+
+	@media (min-width: 905px) {
+		.photo-grid {
+			grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+		}
+	}
+
+	@media (min-width: 1200px) {
+		.photo-grid {
+			grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+		}
 	}
 </style>

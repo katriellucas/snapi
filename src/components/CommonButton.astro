@@ -5,17 +5,20 @@ interface Props {
 	type?: 'button' | 'reset' | 'submit';
 	wide?: boolean;
 	primary?: boolean;
+	danger?: boolean;
 	rainbow?: boolean;
-	style?: object;
+	style?: any;
+	name?: string;
+	value?: string | null;
 }
 
-const { href, wide, primary, rainbow, ...props } = Astro.props;
+const { href, wide, primary, danger, rainbow, ...props } = Astro.props;
 
 const El = href ? 'a' : 'button';
 ---
 
 <El class:list={['common-button target', { wide, rainbow }]} {...props} {href}>
-	<span class:list={['container ripple', { primary }]}>
+	<span class:list={['container ripple', { primary, danger }]}>
 		<slot />
 	</span>
 </El>
@@ -58,6 +61,10 @@ const El = href ? 'a' : 'button';
 	.primary {
 		background: var(--accent);
 		color: var(--on-accent);
+	}
+
+	.danger {
+		color: var(--error);
 	}
 
 	.wide {
