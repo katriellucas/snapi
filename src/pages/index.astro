@@ -12,7 +12,7 @@ import Thumbnail from '@components/Thumbnail.astro';
 // const { blobs } = []; //await gallery.list();
 
 const res = await fetch('data/photomap.json');
-console.log(res);
+console.log(Astro.url);
 
 const photo = Astro.url.searchParams.get('photo');
 ---
