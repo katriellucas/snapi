@@ -5,18 +5,25 @@ import { photoList } from '../libs/helpers';
 
 interface Props {
 	key: string;
+	alt: any;
+	image: any;
 }
 
-const { key } = Astro.props;
+const { key, alt, image } = Astro.props;
 
-const { metadata } = (await gallery.getMetadata(key)) ?? {};
+// const { metadata } = (await gallery.getMetadata(key)) ?? {};
+
+// console.log(key, alt, image);
+
+// const { metadata } = (await gallery.getMetadata(key)) ?? {};
 // console.log(key, metadata?.ext, '<- here');
-// console.log(photoList[`/src/gallery/${key}.${metadata?.ext}`](), '-----------');
-console.log(photoList, 'photo');
+const i = await photoList[`/src/gallery/${key}.${alt?.ext}`]();
+console.log(i.default);
+// console.log(photoList, 'photo');
 
-console.log(metadata);
+// console.log(metadata);
 
-const image = photoList[`/src/gallery/${key}.${metadata}.avif`]();
+// const image = photoList[`/src/gallery/${key}.${metadata}.avif`]();
 
 // console.log(image, 'image');
 ---
@@ -25,7 +32,7 @@ const image = photoList[`/src/gallery/${key}.${metadata}.avif`]();
 	<Picture
 		class="photo"
 		src={image}
-		alt={`${metadata?.alt}`}
+		alt={alt}
 		formats={['avif', 'webp']}
 		sizes={`(max-width: 415px) 240px, (max-width: 1200px) 400px`}
 		widths={[240, 400]}

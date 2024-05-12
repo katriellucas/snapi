@@ -26,7 +26,9 @@ if (!sessionValid) {
 	return Astro.redirect('/login');
 }
 
-const { blobs } = await gallery.list();
+const photomap = await fetch(Astro.url.origin + '/data/photomap.json')
+	.then(res => res.json())
+	.catch(err => console.error(err));
 
 // for (const { key } of blobs) {
 // 	gallery.delete(key);
@@ -121,14 +123,13 @@ if (Astro.request.method === 'POST') {
 			</Dialog>
 		)
 	}
+
 	<div class="photo-grid">
 		{
-			blobs.map(({ key }) => {
-				if (key === 'profile') return;
-
+			photomap.map(({ key, metadata, image }: any) => {
 				return (
 					<div class="thumb-wrapper">
-						<Thumbnail {key}>
+						<Thumbnail {key} alt={metadata} {image}>
 							<CommonButton wide href={`?action=edit&key=${key}`}>
 								Edit
 							</CommonButton>

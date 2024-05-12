@@ -11,8 +11,10 @@ import Thumbnail from '@components/Thumbnail.astro';
 
 // const { blobs } = []; //await gallery.list();
 
-const res = await fetch('data/photomap.json');
-console.log(Astro.url);
+// const res = await fetch('data/photomap.json');
+const photomap = await fetch(Astro.url.origin + '/data/photomap.json')
+	.then(res => res.json())
+	.catch(err => console.error(err));
 
 const photo = Astro.url.searchParams.get('photo');
 ---
@@ -26,15 +28,11 @@ const photo = Astro.url.searchParams.get('photo');
 		)
 	}
 	<div class="photo-grid">
-		{res}
-		{JSON.stringify(res)}
-		<!-- {
-			blobs.map(({ key }) => {
-				if (key === 'profile') return;
-
-				return <Thumbnail {key} />;
+		{
+			photomap.map(({ key, metadata, image }: any) => {
+				return <Thumbnail {key} alt={metadata} {image} />;
 			})
-		} -->
+		}
 	</div>
 </App>
 
