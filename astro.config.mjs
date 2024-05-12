@@ -10,5 +10,6 @@ export default defineConfig({
 		edgeMiddleware: true,
 		imageCDN: import.meta.env.PROD,
 	}),
-	integrations: [icon({ include: { tabler: ['*'] } })]
+	integrations: [icon({ include: { tabler: ['*'] } })],
+	prefetch: true
 });
