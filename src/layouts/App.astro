@@ -18,15 +18,15 @@ const profile = await fetch(Astro.url.origin + '/data/profile.json')
 			username: '',
 			job: '',
 			description: '',
-			action_button_label: 'Get this website',
-			action_button_link: '#',
+			action_label: 'Get this website',
+			action_link: 'https://github.com/katriellucas/snapi',
 		};
 	});
 
 const { title } = Astro.props;
 ---
 
-<Root {title}>
+<Root {title} vt>
 	<TopAppBar>
 		<section class="left-section">
 			<img src="/favicon.svg" alt="Astro logo" width="40" height="40" />
@@ -41,8 +41,8 @@ const { title } = Astro.props;
 				<div class="name">{profile.username}</div>
 				<div class="profession">{profile.job}</div>
 				<p class="description">{profile.description}</p>
-				<CommonButton primary wide href={profile.action_button_link}>
-					{profile.action_button_label}
+				<CommonButton primary wide href={profile.action_link}>
+					{profile.action_label}
 				</CommonButton>
 			</div>
 		</aside>
@@ -92,6 +92,7 @@ const { title } = Astro.props;
 		display: flex;
 		flex: 1;
 		flex-direction: column;
+		width: 100%;
 	}
 
 	.name {

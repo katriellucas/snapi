@@ -80,15 +80,13 @@ export async function profileUpdateForm(formData: any) {
 		const action_link = formData.get('action-link');
 		const profile_img = formData.get('profile-img');
 
-		console.log(profile_img)
-
+		console.log(formData)
 		
 		await user.setJSON('profile', { name, job, description, action_label, action_link, has_updates: true });
 
 		// Check if file type is valid
 
 		if (profile_img.size > 0) {
-			console.log(profile_img)
 			const fileType = await fileTypeFromBlob(profile_img);
 
 			if (fileType?.ext && !['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'].includes(fileType.ext)) {

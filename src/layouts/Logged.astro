@@ -37,7 +37,7 @@ const profilePic = await gallery
 const { title } = Astro.props;
 ---
 
-<Root {title}>
+<Root {title} vt>
 	<TopAppBar>
 		<section class="left-section">
 			<img src="/favicon.svg" alt="Astro logo" width="40" height="40" />
@@ -161,6 +161,7 @@ const { title } = Astro.props;
 		flex: 1;
 		flex-direction: column;
 		margin-top: 16px;
+		width: 100%;
 	}
 
 	.profile-img-input {
@@ -243,7 +244,8 @@ const { title } = Astro.props;
 </style>
 
 <script is:inline>
-	if (!window.snapiProfile) {
+	if (!window.snapiProfileInput) {
+		console.log('heehh');
 		let snapiProfileInput = document.querySelector('#snapi-profile-input');
 		let snapiProfileImg = document.querySelector('#snapi-profile-img');
 

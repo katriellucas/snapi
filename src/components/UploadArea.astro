@@ -1,9 +1,6 @@
 ---
 import TextField from '@components/TextField.astro';
 import IconButton from '@components/IconButton.astro';
-import { photoList } from 'src/libs/helpers';
-import { Image } from 'astro:assets';
-import { gallery } from '../libs/stores';
 
 interface Props {
 	key?: string;
@@ -104,7 +101,7 @@ const { action, key } = Astro.props;
 </style>
 
 <script is:inline>
-	if (!window.snapiInput) {
+	if (!window.snapiInput && !window.snapiImg) {
 		let snapiInput = document.querySelector('#snapi-input');
 		let snapiImg = document.querySelector('#snapi-img');
 
