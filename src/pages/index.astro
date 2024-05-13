@@ -5,14 +5,15 @@ import App from '../layouts/App.astro';
 import Dialog from '@components/Dialog.astro';
 import Photo from '@components/Photo.astro';
 import Thumbnail from '@components/Thumbnail.astro';
+import { gallery } from 'src/libs/stores';
 
 // console.log(fetch('/').catch(err => console.error(err)));
 
 // const { blobs } = await gallery.list();
 
-// // for (const { key } of blobs) {
-// // 	gallery.delete(key);
-// // }
+// for (const { key } of blobs) {
+// 	gallery.delete(key);
+// }
 
 // const res = await fetch('data/photomap.json');
 const photomap = await fetch(Astro.url.origin + '/data/photomap.json')
