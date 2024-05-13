@@ -1,0 +1,4 @@
+[template.environment]
+	SNAPI_TOKEN = "Personal token from Netlify"
+	PASSWORD = "Password for your instance"
+	BUILD_HOOK = "Hook link for integrated deploys"
