@@ -21,23 +21,7 @@ if (!sessionValid) {
 	return Astro.redirect('/login');
 }
 
-// const photomap = await fetch(Astro.url.origin + '/data/photomap.json').then(res => res.json());
-
 const { blobs } = await gallery.list();
-
-// const serverPhotomap = await Promise.all(
-// 	blobs.map(async ({ key }) => {
-// 		const photo = photomap.find((photo: { key: string }) => photo.key === key);
-
-// 		return photo === undefined ? gallery.getWithMetadata(key) : photo;
-// 	}),
-// );
-
-// console.log(serverPhotomap);
-
-// for (const { key } of blobs) {
-// 	gallery.delete(key);
-// }
 
 const action = Astro.url.searchParams.get('action');
 const alert = Astro.url.searchParams.get('alert');

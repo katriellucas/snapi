@@ -14,7 +14,7 @@ if (Astro.request.method === 'POST') {
 	if (password === import.meta.env.PASSWORD) {
 		const uuid = crypto.randomUUID();
 		await user.set('session', uuid);
-		Astro.cookies.set('session', uuid);
+		Astro.cookies.set('session', uuid, { path: '/', httpOnly: true });
 		return Astro.redirect('/config');
 	} else {
 		error = 'Wrong password.';
