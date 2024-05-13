@@ -30,8 +30,6 @@ if (Astro.request.method === 'GET') {
 
 		if (isValidSession) {
 			return Astro.redirect('/config');
-		} else {
-			Astro.cookies.delete('session');
 		}
 	}
 }

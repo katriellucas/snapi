@@ -2,14 +2,26 @@
 import Root from '../layouts/Root.astro';
 import TopAppBar from '@components/TopAppBar.astro';
 import IconButton from '@components/IconButton.astro';
-import { Image } from 'astro:assets';
-import profile from '../gallery/profile.png';
+import { Picture } from 'astro:assets';
 import CommonButton from '@components/CommonButton.astro';
 import FAB from '@components/FAB.astro';
+import profilePic from '../gallery/profile.png';
 
 interface Props {
 	title: string;
 }
+
+const profile = await fetch(Astro.url.origin + '/data/profile.json')
+	.then(res => res.json())
+	.catch(() => {
+		return {
+			username: '',
+			job: '',
+			description: '',
+			action_button_label: 'Get this website',
+			action_button_link: '#',
+		};
+	});
 
 const { title } = Astro.props;
 ---
@@ -25,14 +37,13 @@ const { title } = Astro.props;
 	<div class="content">
 		<aside class="sidebar">
 			<div class="profile-card">
-				<Image class="profile" src={profile} alt="Astro logo" width="150" height="150" />
-				<div class="name">Mr. Mittens</div>
-				<div class="profession">Cat Photographer</div>
-				<p class="description">
-					I'm Mr. Mittens, the cat-tographer, with a knack for capturing feline grace and charm in
-					every frame.
-				</p>
-				<CommonButton primary wide href="/contact">Contact</CommonButton>
+				<Picture class="profile" src={profilePic} alt="Astro logo" width="150" height="150" />
+				<div class="name">{profile.username}</div>
+				<div class="profession">{profile.job}</div>
+				<p class="description">{profile.description}</p>
+				<CommonButton primary wide href={profile.action_button_link}>
+					{profile.action_button_label}
+				</CommonButton>
 			</div>
 		</aside>
 		<main>
