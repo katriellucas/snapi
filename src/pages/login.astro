@@ -12,7 +12,6 @@ if (Astro.request.method === 'POST') {
 	const password = formData.get('password') as string;
 
 	if (password === import.meta.env.PASSWORD) {
-		// console.log(password, '=', import.meta.env.PASSWORD);
 		const uuid = crypto.randomUUID();
 		await user.set('session', uuid);
 		Astro.cookies.set('session', uuid);
@@ -23,17 +22,19 @@ if (Astro.request.method === 'POST') {
 	}
 }
 
-// if (Astro.request.method === 'GET') {
-// 	const session = Astro.cookies.get('session')?.value; // undefined if no session
+if (Astro.request.method === 'GET') {
+	const session = Astro.cookies.get('session')?.value; // undefined if no session
 
-// 	if (session) {
-// 		const isValidSession: boolean = await validSession(session);
+	if (session) {
+		const isValidSession: boolean = await validSession(session);
 
-// 		if (isValidSession) {
-// 			return Astro.redirect('/config');
-// 		}
-// 	}
-// }
+		if (isValidSession) {
+			return Astro.redirect('/config');
+		} else {
+			Astro.cookies.delete('session');
+		}
+	}
+}
 ---
 
 <Fullscreen title="Welcome to Astro.">
