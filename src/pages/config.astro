@@ -17,6 +17,7 @@ const session = Astro.cookies.get('session')?.value;
 const sessionValid = await validSession(session);
 
 if (!sessionValid) {
+	Astro.cookies.delete('session');
 	return Astro.redirect('/login');
 }
 
