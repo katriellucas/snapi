@@ -77,18 +77,26 @@ export async function profileUpdateForm(formData: any) {
 		const job = formData.get('job');
 		const description = formData.get('description');
 		const action_label = formData.get('action-label');
-		const action_link = formData.get('action-label');
+		const action_link = formData.get('action-link');
 		const profile_img = formData.get('profile-img');
 
-		// Check if file type is valid
-		const fileType = await fileTypeFromBlob(profile_img);
+		console.log(profile_img)
 
-		if (fileType?.ext && !['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'].includes(fileType.ext)) {
-			return 'Invalid file type.';
-		}
-
+		
 		await user.setJSON('profile', { name, job, description, action_label, action_link, has_updates: true });
-		await gallery.set('profile', profile_img, { metadata: {...fileType, alt: 'Profile picture'} });
+
+		// Check if file type is valid
+
+		if (profile_img.size > 0) {
+			console.log(profile_img)
+			const fileType = await fileTypeFromBlob(profile_img);
+
+			if (fileType?.ext && !['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'].includes(fileType.ext)) {
+				return 'Invalid file type.';
+			}
+
+			await gallery.set('profile', profile_img, { metadata: {...fileType, alt: 'Profile picture'} });
+		}
 
 		return 'Profile updated successfully! Publish to see changes.';
 	} catch (error) {

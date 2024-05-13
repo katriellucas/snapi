@@ -9,7 +9,11 @@ import Thumbnail from '@components/Thumbnail.astro';
 
 // console.log(fetch('/').catch(err => console.error(err)));
 
-// const { blobs } = []; //await gallery.list();
+// const { blobs } = await gallery.list();
+
+// // for (const { key } of blobs) {
+// // 	gallery.delete(key);
+// // }
 
 // const res = await fetch('data/photomap.json');
 const photomap = await fetch(Astro.url.origin + '/data/photomap.json')
