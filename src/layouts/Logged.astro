@@ -11,6 +11,7 @@ import profileImg from '../gallery/profile.png';
 
 import { gallery, user } from '../libs/stores';
 import { Icon } from 'astro-icon/components';
+import IconButton from '@components/IconButton.astro';
 
 interface Props {
 	title: string;
@@ -18,7 +19,7 @@ interface Props {
 
 const profile = await user.get('profile', { type: 'json' }).catch(() => {
 	return {
-		username: '',
+		name: '',
 		job: '',
 		description: '',
 		action_label: 'Get this website',
@@ -59,61 +60,57 @@ const { title } = Astro.props;
 				</CommonButton>
 			)
 		}
+		<IconButton href="/login" icon="tabler:settings-2" />
 	</TopAppBar>
-	<div class="content">
-		<aside class="sidebar">
-			<form
-				class="user-form"
-				method="post"
-				enctype="multipart/form-data"
-				action="?action=profile-update"
-			>
-				<div class="profile-card">
-					<label class="profile-img-input target ripple">
-						<img
-							id="snapi-profile-img"
-							class="profile"
-							src={profilePic}
-							alt="Astro logo"
-							width="150"
-							height="150"
-						/>
-						<input
-							id="snapi-profile-input"
-							class="visually-hidden"
-							type="file"
-							name="profile-img"
-						/>
-					</label>
-					<span class="chip">
-						<Icon name="tabler:pencil" width={18} height={18} /> Edit
-					</span>
-				</div>
-				<h2 class="form-title">Profile</h2>
-				<TextField label="Name" name="name" value={profile?.name} />
-				<TextField label="Job" name="job" value={profile?.job} />
-				<TextArea label="Description" name="description" value={profile?.description} />
-				<Divider />
+</Root>
+<div class="content">
+	<aside class="sidebar">
+		<form
+			class="user-form"
+			method="post"
+			enctype="multipart/form-data"
+			action="?action=profile-update"
+		>
+			<div class="profile-card">
+				<label class="profile-img-input target ripple">
+					<img
+						id="snapi-profile-img"
+						class="profile"
+						src={profilePic}
+						alt="Astro logo"
+						width="150"
+						height="150"
+					/>
+					<input id="snapi-profile-input" class="visually-hidden" type="file" name="profile-img" />
+				</label>
+				<span class="chip">
+					<Icon name="tabler:pencil" width={18} height={18} /> Edit
+				</span>
+			</div>
+			<h2 class="form-title">Profile</h2>
+			<TextField label="Name" name="name" value={profile?.name} />
+			<TextField label="Job" name="job" value={profile?.job} />
+			<TextArea label="Description" name="description" value={profile?.description} />
+			<Divider />
 
-				<h2 class="form-title">Call to action</h2>
-				<TextField label="Button label" name="action-label" value={profile?.action_label} />
-				<TextField label="Button link" name="action-link" value={profile?.action_link} />
-				<CommonButton primary>Save</CommonButton>
-			</form>
-		</aside>
-		<main>
-			<slot />
-		</main>
-		<footer>
-			<!-- <section class="fab-area">
+			<h2 class="form-title">Call to action</h2>
+			<TextField label="Button label" name="action-label" value={profile?.action_label} />
+			<TextField label="Button link" name="action-link" value={profile?.action_link} />
+			<CommonButton primary>Save</CommonButton>
+		</form>
+	</aside>
+	<main>
+		<slot />
+	</main>
+	<footer>
+		<!-- <section class="fab-area">
 				<FAB href="#top" class="top" icon="tabler:arrow-up" />
 			</section> -->
-			<FAB href="?action=upload-photo" icon="tabler:photo-plus" />
+		<FAB href="?action=upload-photo" icon="tabler:photo-plus" />
 
-			<small>© {new Date().getFullYear()}. All rights reserved.</small>
-		</footer>
-	</div>
-</Root>
+		<small>© {new Date().getFullYear()}. All rights reserved.</small>
+	</footer>
+</div>
 
 <style>
 	#app {

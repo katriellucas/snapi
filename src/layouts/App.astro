@@ -15,7 +15,7 @@ const profile = await fetch(Astro.url.origin + '/data/profile.json')
 	.then(res => res.json())
 	.catch(() => {
 		return {
-			username: '',
+			name: '',
 			job: '',
 			description: '',
 			action_label: 'Get this website',
@@ -38,7 +38,7 @@ const { title } = Astro.props;
 		<aside class="sidebar">
 			<div class="profile-card">
 				<Picture class="profile" src={profilePic} alt="Astro logo" width="150" height="150" />
-				<div class="name">{profile.username}</div>
+				<div class="name">{profile.name}</div>
 				<div class="profession">{profile.job}</div>
 				<p class="description">{profile.description}</p>
 				<CommonButton primary wide href={profile.action_link}>
