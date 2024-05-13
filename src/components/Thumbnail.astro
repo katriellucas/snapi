@@ -9,6 +9,8 @@ interface Props {
 
 const { key, alt, image } = Astro.props;
 
+if (key === 'profile') return;
+
 const photomap = await fetch(Astro.url.origin + '/data/photomap.json')
 	.then(res => res.json())
 	.catch(err => console.error(err));
